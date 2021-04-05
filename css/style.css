@@ -1,0 +1,203 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.bg-menu{
+    background-color: #151c48;
+    
+}
+.bg-menu .nav-link{
+    color: white !important;
+}
+
+.bg-menu .nav-link:hover{
+    color: rgb(238, 88, 88) !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here /
+    height: 60px;
+    line-height: 60px; / Vertically center the text there */
+    background-color: #f5f5f5;
+  }
+  .logo{
+      width: 10%;
+  }
+  .text-logo{
+    padding-left: 3rem;
+    font-weight: 500;
+  }
+
+/*CSS do histórico*/
+/*MUDEI O CSS DO FOOTER TAMBÉM*/
+#history-content {
+  margin-top: 40px;
+  height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#history-search-form{
+  padding-top: 8px;
+}
+
+#history-search-form form select{
+  margin-left: 60px;
+}
+
+#history-search-type{
+  margin-left: auto;
+
+}
+
+.history-img img{
+  width: 100%;
+}
+
+.history-items{
+  margin-top: 2em;
+  padding: 2em;
+
+}
+
+.history-type{
+  text-align: start;
+}
+
+.history-devolution-date{
+  text-align: end;
+}
+
+/*CSS DO INDEX*/
+.icon-succ{
+  color:seagreen;
+  font-size: 0.7rem;
+}
+.icon-dang{
+  color:red;
+  font-size: 0.7rem;
+}
+.effect-card:hover{
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px 8px #888888;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/*CSS CADASTRO DE EQUIPAMENTOS*/
+#form-cad{
+    width: 500px;
+    clear: both;
+}
+
+.text-cad {
+  padding-left: 110px;
+}
+
+.botao-cad {
+  padding: 10px;
+  margin-left: 600px;
+  margin-right: 680px;
+  background-color: blue;
+  border-radius: 10px;    
+}
+
+.botao-cad a {
+  text-decoration: none;
+  color: #f5f5f5;
+}
+
+/*CSS DO MODAL SOBRE*/
+.modal-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  
+}
+.modal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  background-image: linear-gradient(to right, white, White,#151c48, rgb(238, 88, 88));
+}
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  background-image:url(img\close-window.png);
+}
+
+#modalSobre{
+  text-align:start;
+  word-wrap:normal;
+}
+  
+
+@media(max-width:768px){
+  .logo{
+    width: 30%;
+    height: 100%;
+  }
+  
+  .text-logo{
+      padding-left: 0rem;
+      font-size: 1rem;
+  }
+
+/*CSS do histórico*/
+  #history-title h1{
+    font-size: 20pt;
+  }
+
+  #history-search-form form select{
+    margin: 3px 0px 3px 0px;
+  }
+
+  #history-search-form form input{
+    margin: 3px 0px 3px 0px;
+  }
+
+  .history-devolution-date{
+    text-align: start;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /*CSS DO INDEX*/
+  .effect-card{
+    margin-top:10px;
+  }
+
+}
+
+.logo-colorida{
+  width: 150px;
+}
