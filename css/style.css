@@ -156,7 +156,34 @@ button.close {
   text-align:start;
   word-wrap:normal;
 }
-  
+
+
+@media(max-width:1200px){
+  /*CSS do histórico*/
+  #history-search-form{
+    padding: 0px;
+    margin: auto;
+  }
+
+  #history-search-form #history-search-type{
+    margin-left: 0px;
+  }
+}
+
+/*@media(max-width:990px){
+  #history-search-form{
+    margin: auto;
+    background-color: red;
+  }
+
+  #history-search-form #history-search-type{
+    margin-left: auto;
+  }
+
+  #history-search-form input[type=submit]{
+    margin-right: auto;
+  }
+}*/
 
 @media(max-width:768px){
   .logo{
@@ -180,6 +207,10 @@ button.close {
 
   #history-search-form form input{
     margin: 3px 0px 3px 0px;
+  }
+
+  #history-search-form form input[type=search]{
+    width: 100%;
   }
 
   .history-devolution-date{
