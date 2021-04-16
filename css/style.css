@@ -33,43 +33,43 @@ body {
     font-weight: 500;
   }
 
+
 /*CSS do histórico*/
-/*MUDEI O CSS DO FOOTER TAMBÉM*/
-#history-content {
+#historico-content {
   margin-top: 40px;
   height: 700px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-#history-search-form{
+#historico-search-form{
   padding-top: 8px;
 }
 
-#history-search-form form select{
+#historico-search-form form select{
   margin-left: 60px;
 }
 
-#history-search-type{
+#historico-search-type{
   margin-left: auto;
 
 }
 
-.history-img img{
+.historico-img img{
   width: 100%;
 }
 
-.history-items{
+.historico-items{
   margin-top: 2em;
   padding: 2em;
 
 }
 
-.history-type{
+.historico-type{
   text-align: start;
 }
 
-.history-devolution-date{
+.historico-emprestimo-date{
   text-align: end;
 }
 
@@ -157,33 +157,70 @@ button.close {
   word-wrap:normal;
 }
 
+/*CSS da gerencia de empréstimos*/
+#gerencia-emprestimos-content {
+  margin-top: 40px;
+  height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#gerencia-emprestimos-search-form{
+  padding-top: 8px;
+}
+
+#gerencia-emprestimos-search-form form select{
+  margin-left: 60px;
+}
+
+#gerencia-emprestimos-search-type{
+  margin-left: auto;
+
+}
+
+.gerencia-emprestimos-img img{
+  width: 100%;
+}
+
+.gerencia-emprestimos-items{
+  margin-top: 2em;
+  padding: 2em;
+
+}
+
+.gerencia-emprestimos-type{
+  text-align: start;
+}
+
+.btn-emprestimo{
+  margin: auto;
+  height:90%;
+  width: 100%;
+}
+
 
 @media(max-width:1200px){
   /*CSS do histórico*/
-  #history-search-form{
+  #historico-search-form{
     padding: 0px;
     margin: auto;
   }
 
-  #history-search-form #history-search-type{
+  #historico-search-form #historico-search-type{
+    margin-left: 0px;
+  }
+
+  /*CSS dda gerencia de emprestimos*/
+  #gerencia-emprestimos-search-form{
+    padding: 0px;
+    margin: auto;
+  }
+
+  #gerencia-emprestimos-search-form #gerencia-emprestimos-search-type{
     margin-left: 0px;
   }
 }
 
-/*@media(max-width:990px){
-  #history-search-form{
-    margin: auto;
-    background-color: red;
-  }
-
-  #history-search-form #history-search-type{
-    margin-left: auto;
-  }
-
-  #history-search-form input[type=submit]{
-    margin-right: auto;
-  }
-}*/
 
 @media(max-width:768px){
   .logo{
@@ -197,23 +234,23 @@ button.close {
   }
 
 /*CSS do histórico*/
-  #history-title h1{
+  #historico-title h1{
     font-size: 20pt;
   }
 
-  #history-search-form form select{
+  #historico-search-form form select{
     margin: 3px 0px 3px 0px;
   }
 
-  #history-search-form form input{
+  #historico-search-form form input{
     margin: 3px 0px 3px 0px;
   }
 
-  #history-search-form form input[type=search]{
+  #historico-search-form form input[type=search]{
     width: 100%;
   }
 
-  .history-devolution-date{
+  .historico-emprestimo-date{
     text-align: start;
   }
 
@@ -221,6 +258,24 @@ button.close {
     flex-direction: column;
     align-items: stretch;
   }
+
+/*CSS da gerencia emprestimos*/
+  #gerencia-emprestimos-title h1{
+    font-size: 20pt;
+  }
+
+  #gerencia-emprestimos-search-form form select{
+    margin: 3px 0px 3px 0px;
+  }
+
+  #gerencia-emprestimos-search-form form input{
+    margin: 3px 0px 3px 0px;
+  }
+
+  #gerencia-emprestimos-search-form form input[type=search]{
+    width: 100%;
+  }
+
 
   /*CSS DO INDEX*/
   .effect-card{
