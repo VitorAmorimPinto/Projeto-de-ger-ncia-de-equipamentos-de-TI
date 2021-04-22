@@ -233,6 +233,16 @@ button.close {
       font-size: 1rem;
   }
 
+/*CSS da configuracoes-gerais*/
+  #configuracoes-gerais-title h1{
+    font-size: 20pt;
+  }
+
+  .submit {
+    background: blue;
+    border-radius: 20px;
+  }
+
 /*CSS do histórico*/
   #historico-title h1{
     font-size: 20pt;
