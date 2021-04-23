@@ -297,3 +297,11 @@ button.close {
 .logo-colorida{
   width: 150px;
 }
+.link-produtos{
+  text-decoration: none;
+  color:black;
+}
+.link-produtos:hover{
+  text-decoration: none;
+  color:black;
+}
