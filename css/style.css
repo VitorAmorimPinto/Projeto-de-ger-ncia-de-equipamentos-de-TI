@@ -184,7 +184,7 @@ color: #f5f5f5;
   border-bottom: 1px solid #e9ecef;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
-  background-image: linear-gradient(to right, white, White,#151c48, rgb(238, 88, 88));
+  background-image: linear-gradient(to right, white, White,#151c48, rgb(252, 25, 25));
 }
 button.close {
   padding: 0;
@@ -346,4 +346,11 @@ button.close {
 .link-produtos:hover{
   text-decoration: none;
   color:black;
+}
+.top-card{
+  background: rgb(34,199,215);
+}
+.back-card{
+
+  background: #f5f5f5;
 }
