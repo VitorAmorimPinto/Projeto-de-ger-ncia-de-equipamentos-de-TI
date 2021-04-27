@@ -364,3 +364,12 @@ button.close {
 .dropdown-item:hover{
   background-color: #e1eaf7
 }
+
+/* CSS CONFIGURAÇÕES GERAIS*/
+.mudar-cor-hover :hover {
+  color: #06a7f1;
+}
+
+.text-botao {
+  color: #151c48;
+}

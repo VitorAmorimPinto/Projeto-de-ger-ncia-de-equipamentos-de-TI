@@ -40,7 +40,7 @@
                     <a class="nav-link " href="configuracoes-gerais.html" >
                         Configurações gerais
                     </a>
-                    </li>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link " href="#"  data-bs-toggle="modal" data-bs-target="#modalSobre">
                         Sobre
@@ -78,6 +78,7 @@
                 <div>
                     <form class="form-group">
                         <label>Funcionários de T.I</label>
+                        <a class="mudar-cor-hover" href="" data-bs-toggle="modal" data-bs-target="#modalCadastroEmail"><span><i class="fas fa-plus-circle text-botao"></i></span></a>
                         <input type="text" name="gestor" class="form-control">
                     </form>
                 </div>
@@ -88,7 +89,7 @@
             <div class="col-md-4">
                 <div>
                     <form class="form-group">
-                        <input type="submit" value="Salvar email's" class="btn btn-primary mt-4">
+                        <input type="submit" value="Salvar email's" class="btn mt-4 bg-menu text-white">
                     </form>
                 </div>
             </div>
@@ -105,7 +106,7 @@
                 <form class="">
                     <label>Nome </label>
                     <input type="text" name="Nome" class="form-control">
-                    <input type="submit" value="Cadastrar setor" class="btn btn-primary mt-4">
+                    <input type="submit" value="Cadastrar setor" class="btn mt-4 bg-menu text-white">
                 </form>
                 </div>
             </div>
@@ -142,14 +143,37 @@
                 <form class="">
                     <label>Endereço</label>
                     <input type="text" name="gestor" class="form-control">
-                    <input type="submit" value="endereco" class="btn btn-primary mt-4">
+                    <input type="submit" value="Cadastrar" class="btn mt-4 bg-menu text-white">
                 </form>
                 </div>
             </div>
         </div>          
     </div>
     
-    
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="modalCadastroEmail">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Novo email do funcionário</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Cadastrar novo email</label>
+                        <input type="email" name="email" class="form-control" required> 
+                    </div> 
+                    <div class="modal-footer">
+                        <input type="submit" value="Salvar" class="btn bg-menu text-white">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Aqui termina o modal-->
+
 </body>
 <script src="js/bootstrap.bundle.min.js"></script>
 </html>
