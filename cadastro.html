@@ -53,66 +53,38 @@
     </div>
   </nav>
   <br>
-    <div class="container">
-    <div class="row border-bottom mt-0.1 p-4">
-        <div class="col-md-12">
-            <h2>Cadastro de Equipamentos</h2>
-        </div>
-        </div>
-</div>
-<br> <br>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-1">
-
+    
+  <div class="container">
+    <div class="row border-bottom p-4">
+      <div class="col-md-12">
+          <h2>Cadastro de Equipamentos</h2>
+      </div>
     </div>
-    <div class="col-md-4 ">
-      <form class="d-flex justify-content-center">
-    <div class="card" id="card-cadastro">
-      <img src="img/previa.png" class="card-img-top" id="img-card" alt="...">
+    <form action="">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <div class="border mx-auto" id="card-cadastro">
+            <img src="img/previa.png" class="card-img-top" id="img-card" alt="...">
+          </div>
+          <br>
+        </div>
+        <div class="col-md-4">
+          <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm" id="btn-add" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
+            <select class="form-control">
+              <option>Selecione</option>
+              <option>Fone de Ouvido</option>
+              <option>Tablet</option>
+              <option>Notebook</option>
+              <option>Celular</option>
+            </select>
+          <label>Patrimônio do equipamento</label>
+          <input type="text" name="patrimonio" class="form-control"> <br>
+          <input type="submit" value="Cadastro Equipamento" class="btn bg-menu text-white">
+        </div>
       </div>
     </form>
-      
-        <br>
-
-      
-    
-    </div>
-      
-    <div class="col-md-6">
-      <form class="d-flex justify-content-center">
-  <div id="form-cad">
-  
-    <form class="">
-      <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm" id="btn-add" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button>
-      </label>
-      <select class="form-control" style="width:450px;">
-        <option>Selecione</option>
-        <option>Fone de Ouvido</option>
-        <option>Tablet</option>
-        <option>Notebook</option>
-        <option>Celular</option>
-      </select>
-      <label>Patrimônio do equipamento</label>
-      <input type="text" name="patrimonio" class="form-control" style="width:450px;"> <br>
-      
-      <button type="button" value="Cadastro Equipamento" class="btn" id="btn-cad">Cadastrar Equipamento</button>
-
-    </form>
   </div>
-</form>
-  </div>
-  <div class ="col-md-1">
-    
-  </div>
-</div>
-  </div>
-  </div>
-  
-  </div>
-  </div>
-  
-    </body>
+</body>
     
 
     <footer class="footer">
@@ -130,20 +102,18 @@
           <h5 class="modal-title">Novo Tipo de Equipamento</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true"><i class="fas fa-times"></i></span>
-        </button>
+          </button>
         </div>
         <div class="modal-body">
           <label>Novo tipo</label>
-      <input type="text" name="patrimonio" class="form-control"> 
+          <input type="text" name="patrimonio" class="form-control"> 
+          <label> Nova Imagem </label>
+          <div class="form-group">
+            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+          </div> 
         </div>
-        <label style="position:relative; left:17px"> Nova Imagem </label>
-        <div class="form-group">
-      <input type="file" class="form-control-file" id="exampleFormControlFile1" style="position:relative; left:17px">
-        </div> 
         <div class="modal-footer">
           <button type="button" value="Cadastro Equipamento" class="btn" id="btn-cad">Salvar</button>
-          
-
         </div>
       </div>
     </div>
