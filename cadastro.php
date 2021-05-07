@@ -69,7 +69,17 @@ include("conexao.php");
       <div class="row mt-5">
         <div class="col-md-4">
           <div class="border mx-auto" id="card-cadastro">
-            <img src="img/previa.png" class="card-img-top" id="img-card" alt="...">
+
+            <?php
+            $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC LIMIT 1";
+            $res = mysqli_query($con, $sql) or die(mysqli_error($con));
+              $row = $res->fetch_assoc();
+              if($row){
+                echo "<img src='img/".$row['imagem']."' class='card-img-top' id='img-card' alt='...'>";
+              }else{
+                echo "<img src='img/previa.png' class='card-img-top' id='img-card' alt='...'>";
+              }
+            ?>
           </div>
           <br>
         </div>
@@ -78,18 +88,16 @@ include("conexao.php");
             <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm" id="btn-add" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
             <select class="form-control" id="selectTipoEquip" name="tipoCadEquip">
               <?php
-
               $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC";
               $res = mysqli_query($con, $sql) or die(mysqli_error($con));
-
               while ($linha = mysqli_fetch_array($res)) {
                 echo "<option value='" . $linha['tipo'] . "'>" . $linha['tipo'] . "</option>";
               }
               ?>
 
             </select>
-            <label>Patrimônio do equipamento</label>
-            <input type="text" name="patrimonioCadEquip" class="form-control"> <br>
+            <label>Identificador do equipamento</label>
+            <input type="text" name="identificadorCadEquip" class="form-control" required> <br>
             <input type="submit" value="Cadastro Equipamento" class="btn bg-menu text-white" id="btn-cad-equipamento">
          
         </div>
