@@ -114,13 +114,17 @@ width: 120px;
   }
 }
 
-#btn-add{
+.btn-add{
 border-radius: 70px;
 height: 20px;
 line-height: 10px;
 }
 
-
+#btn-remove{
+  border-radius: 70px;
+  height: 20px;
+  line-height: 10px;
+}
 
 
 #btn-cad {

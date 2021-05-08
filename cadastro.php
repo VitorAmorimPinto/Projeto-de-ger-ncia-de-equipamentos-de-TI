@@ -85,7 +85,7 @@ include("conexao.php");
         </div>
         <div class="col-md-4">
           
-            <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm" id="btn-add" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
+            <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm btn-add" id="" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
             <select class="form-control" id="selectTipoEquip" name="tipoCadEquip">
               <?php
               $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC";
