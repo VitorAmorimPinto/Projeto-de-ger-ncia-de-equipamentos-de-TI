@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="pt-br">
+    <meta charset="UTF-8">
+
 <head>
 	<title>Bem Vindo ao sistema</title>
 	<link rel="stylesheet" type="text/css" href="css/style-tela-inicial.css">
@@ -14,7 +17,7 @@
 			<img src="img/bg1.svg">
 		</div>
 		<div class="login-content">
-			<form action="index.html">
+			<form action="autenticacao.php?acao=logar" method="post">
 				<img src="img/avatar1.svg">
 				<h2 class="title">Bem-Vindo</h2>
            		<div class="input-div one">
@@ -23,7 +26,7 @@
            		   </div>
            		   <div class="div">
            		   		<h5>Digite seu usuário</h5>
-           		   		<input type="text" class="input">
+           		   		<input type="text" class="input" name="login">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -32,7 +35,7 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Digite sua senha</h5>
-           		    	<input type="password" class="input">
+           		    	<input type="password" class="input" name="senha">
             	   </div>
             	</div>
 
