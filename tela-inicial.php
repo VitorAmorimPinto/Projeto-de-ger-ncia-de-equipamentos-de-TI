@@ -1,3 +1,7 @@
+<?php
+    include("conexao.php");
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -19,25 +23,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Equipamentos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="index.html">Equipamentos disponíveis</a></li>
-                      <li><a class="dropdown-item" href="cadastro.html">Cadastrar Equipamentos</a></li>
+                      <li><a class="dropdown-item disabled" href="">Equipamentos disponíveis</a></li>
+                      <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Empréstimos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="gerencia-emprestimos.html">Gerenciar empréstimos</a></li>
-                      <li><a class="dropdown-item" href="historico.html">Histórico de Empréstimos</a></li>
+                      <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
+                      <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link " href="configuracoes-gerais.html" >
+                    <a class="nav-link " href="configuracoes-gerais.php" >
                         Configurações gerais
                     </a>
                     </li>
@@ -61,71 +65,48 @@
                 </form>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <a href="#" class="link-produtos" data-bs-toggle="modal" data-bs-target="#modalRealizarEmprestimo">
-                    <div class="effect-card back-card mx-auto card" style="width: 15rem;">
-                        <div class="text-center top-card border-bottom"><h5>Fone de ouvido</h5></div>
-                        <img src="img/fone-de-ouvido.jpg" height="150px" class="card-img-top border-bottom" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Total: 20</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-succ"></i> Disponíveis: 15</p>
+        <!-- <div class="row mt-4"> -->
+            <?php
+                $sql="SELECT id,imagem,tipo FROM `tb_tipoequipamento`";
+                $count = 3;
+                $count2 = 0;
+                $res= mysqli_query($con,$sql);
+                while ($linha = mysqli_fetch_assoc($res)){
+            if ($count == 3) {
+                echo "<div class='row mt-4'>";
+                $count = 0;
+            }   
+                
+        echo   "<div class='col-md-4'>
+                    <a href='#' class='link-produtos' data-bs-toggle='modal' data-bs-target='#modalRealizarEmprestimo'>
+                        <div class='effect-card back-card mx-auto card' style='width: 15rem;'>
+                            <div class='text-center top-card border-bottom'><h5>".$linha['tipo']."</h5></div>
+                            <img src='img/".$linha['imagem']."' height='150px' class='card-img-top border-bottom' alt='...'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>Total: 20</h5>
+                            </div>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <p class='pl-4' ><i class='far fa-circle icon-succ'></i> Disponíveis: 15</p>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <p class='pl-4' ><i class='far fa-circle icon-dang'></i> Emprestados: 05</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-dang"></i> Emprestados: 05</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4 ">
-                <a href="#" class="link-produtos" data-bs-toggle="modal" data-bs-target="#modalRealizarEmprestimo">
-                    <div class="effect-card back-card mx-auto card" style="width: 15rem;">
-                        <div class="text-center top-card border-bottom"><h5>Notebook</h5></div>
-                        <img src="img/notebook.jpg" height="150px" class="card-img-top border-bottom" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Total: 20</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-succ"></i> Disponíveis: 15</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-dang"></i> Emprestados: 05</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4 ">
-                <a href="#" class="link-produtos" data-bs-toggle="modal" data-bs-target="#modalRealizarEmprestimo">
-                    <div class="effect-card back-card mx-auto card" style="width: 15rem;">
-                        <div class="text-center top-card border-bottom"><h5>Tablet</h5></div>
-                        <img src="img/tablet.jpg" height="150px" class="card-img-top border-bottom" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Total: 20</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-succ"></i> Disponíveis: 15</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="pl-4" ><i class="far fa-circle icon-dang"></i> Emprestados: 05</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+                    </a>
+                </div>";
+                if ($count2 == 2) {
+                    echo "</div>";
+                    $count2 = -1;
+                }
+                $count++; 
+                $count2++;
+                }
+            ?>
+        <!-- </div> -->
     </div>
 <div class="modal fade" id="modalRealizarEmprestimo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
