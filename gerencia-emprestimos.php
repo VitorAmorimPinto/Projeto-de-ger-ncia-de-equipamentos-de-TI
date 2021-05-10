@@ -21,25 +21,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Equipamentos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="index.html">Equipamentos disponíveis</a></li>
-                      <li><a class="dropdown-item" href="cadastro.html">Cadastrar Equipamentos</a></li>
+                      <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
+                      <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Empréstimos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="gerencia-emprestimos.html">Gerenciar empréstimos</a></li>
-                      <li><a class="dropdown-item" href="historico.html">Histórico de Empréstimos</a></li>
+                      <li><a class="dropdown-item disabled" href="">Gerenciar empréstimos</a></li>
+                      <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link " href="configuracoes-gerais.html" >
+                    <a class="nav-link " href="configuracoes-gerais.php" >
                         Configurações gerais
                     </a>
                     </li>
