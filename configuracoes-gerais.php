@@ -26,25 +26,25 @@ include("conexao.php");
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="index.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Equipamentos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.html">Equipamentos disponíveis</a></li>
-                            <li><a class="dropdown-item" href="cadastro.html">Cadastrar Equipamentos</a></li>
+                            <li><a class="dropdown-item" href="index.php">Equipamentos disponíveis</a></li>
+                            <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="index.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Empréstimos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="gerencia-emprestimos.html">Gerenciar empréstimos</a></li>
-                            <li><a class="dropdown-item" href="historico.html">Histórico de Empréstimos</a></li>
+                            <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
+                            <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link " href="configuracoes-gerais.html">
+                        <a class="nav-link " href="configuracoes-gerais.php">
                             Configurações gerais
                         </a>
                     </li>
@@ -129,9 +129,9 @@ include("conexao.php");
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <form class="">
+                    <form class="" method="POST" action="crudConfigGerais.php?act=cadSetor">
                         <label>Nome </label>
-                        <input type="text" name="Nome" class="form-control">
+                        <input type="text" name="nomeSetor" class="form-control">
                         <input type="submit" value="Cadastrar setor" class="btn mt-4 bg-menu text-white">
                     </form>
                 </div>
@@ -146,31 +146,38 @@ include("conexao.php");
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <form class="">
+                    <?php
+                    $sql = "SELECT * FROM tb_estabelecimento";
+                    $res = mysqli_query($con, $sql);
+                    $dadosEstabelecimento = mysqli_fetch_array($res);
+                    ?>
+
+                    <form class="" method="POST" action="crudConfigGerais.php?act=cadInfoEstabelecimento">
                         <label>Nome</label>
-                        <input type="text" name="nome" class="form-control">
-                    </form>
+                        <?php
+                        echo "<input type='text' name='nomeEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['nome'] . "'>";
+                        ?>
                 </div>
             </div>
             <div class="col-md-4">
                 <div>
-                    <form class="">
-                        <label>Telefone</label>
-                        <input type="text" name="telefone" class="form-control">
-
-                    </form>
+                    <label>Telefone</label>
+                    <?php
+                    echo "<input type='text' name='telefoneEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['telefone'] . "'>";
+                    ?>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-5">
                 <div>
-                    <form class="">
-                        <label>Endereço</label>
-                        <input type="text" name="gestor" class="form-control">
-                        <input type="submit" value="Cadastrar" class="btn mt-4 bg-menu text-white">
+                    <label>Endereço</label>
+                    <?php
+                    echo "<input type='text' name='enderecoEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['endereco'] . "'>";
+                    ?>
+                    <input type="submit" value="Cadastrar" class="btn mt-4 bg-menu text-white">
                     </form>
+
                 </div>
             </div>
         </div>
@@ -188,7 +195,7 @@ include("conexao.php");
                     </button>
                 </div>
 
-                <form method="POST" action="crudFuncionarios.php?act=cadGestor">
+                <form method="POST" action="crudConfigGerais.php?act=cadGestor">
                     <div class="modal-body">
                         <label>E-mail</label>
                         <input type="email" name="emailGestor" class="form-control" required>
@@ -215,7 +222,7 @@ include("conexao.php");
                     </button>
                 </div>
 
-                <form method="POST" action="crudFuncionarios.php?act=cadFuncionario">
+                <form method="POST" action="crudConfigGerais.php?act=cadFuncionario">
                     <div class="modal-body">
                         <label>Cadastrar e-mail</label>
                         <input type="email" name="emailFuncionario" class="form-control" required>
@@ -242,7 +249,7 @@ include("conexao.php");
                     </button>
                 </div>
 
-                <form method="POST" action="crudFuncionarios.php?act=delFuncionario">
+                <form method="POST" action="crudConfigGerais.php?act=delFuncionario">
                     <div class="modal-body">
                         <label>Selecione o e-mail a ser removido</label>
                         <select class="form-control" name="delEmailFuncionario">
@@ -252,7 +259,7 @@ include("conexao.php");
 
                             while ($linha = mysqli_fetch_array($res)) {
                                 echo "
-                                        <option value='".$linha['email']."'>" . $linha['email'] . "</option>
+                                        <option value='" . $linha['email'] . "'>" . $linha['email'] . "</option>
                                     ";
                             }
                             ?>
@@ -270,5 +277,13 @@ include("conexao.php");
 
 </body>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+
+<!--Para aplicar máscara de formatação ao campo de telefone-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+<script>
+    $("#telefone").mask("(99) 99999-9999");
+</script>
 
 </html>
