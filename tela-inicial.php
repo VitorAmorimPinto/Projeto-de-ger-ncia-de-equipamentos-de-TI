@@ -71,40 +71,64 @@
                 $count = 3;
                 $count2 = 0;
                 $res= mysqli_query($con,$sql);
-                while ($linha = mysqli_fetch_assoc($res)){
-            if ($count == 3) {
-                echo "<div class='row mt-4'>";
-                $count = 0;
-            }   
+                    while ($linha = mysqli_fetch_assoc($res))
+                    {   
+                        $id = $linha['id'];
+                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id'";
+                        $res2= mysqli_query($con,$sql2);
+                        $total = mysqli_num_rows($res2);
+                         
+                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Disponivel'";
+                        $res2= mysqli_query($con,$sql2);
+                        $disponiveis = mysqli_num_rows($res2);
+
+                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Emprestado'";
+                        $res2= mysqli_query($con,$sql2);
+                        $emprestados = mysqli_num_rows($res2);
+                        
+                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Reservado'";
+                        $res2= mysqli_query($con,$sql2);
+                        $reservados = mysqli_num_rows($res2);
+                        if ($count == 3) 
+                        {
+                            echo "<div class='row mt-4'>";
+                            $count = 0;
+                        }   
                 
-        echo   "<div class='col-md-4'>
-                    <a href='#' class='link-produtos' data-bs-toggle='modal' data-bs-target='#modalRealizarEmprestimo'>
-                        <div class='effect-card back-card mx-auto card' style='width: 15rem;'>
-                            <div class='text-center top-card border-bottom'><h5>".$linha['tipo']."</h5></div>
-                            <img src='img/".$linha['imagem']."' height='150px' class='card-img-top border-bottom' alt='...'>
-                            <div class='card-body'>
-                                <h5 class='card-title'>Total: 20</h5>
-                            </div>
-                            <div class='row'>
-                                <div class='col-md-12'>
-                                    <p class='pl-4' ><i class='far fa-circle icon-succ'></i> Disponíveis: 15</p>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-md-12'>
-                                    <p class='pl-4' ><i class='far fa-circle icon-dang'></i> Emprestados: 05</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>";
-                if ($count2 == 2) {
-                    echo "</div>";
-                    $count2 = -1;
-                }
-                $count++; 
-                $count2++;
-                }
+                        echo   "<div class='col-md-4'>
+                                    <a href='#' class='link-produtos' data-bs-toggle='modal' data-bs-target='#modalRealizarEmprestimo'>
+                                        <div class='effect-card back-card mx-auto card' style='width: 15rem;'>
+                                            <div class='text-center top-card border-bottom'><h5>".$linha['tipo']."</h5></div>
+                                            <img src='img/".$linha['imagem']."' height='150px' class='card-img-top border-bottom' alt='...'>
+                                            <div class='card-body'>
+                                                <h5 class='card-title'>Total: $total</h5>
+                                            </div>
+                                            <div class='row'>
+                                                <div class='col-md-12'>
+                                                    <p class='pl-4' ><i class='far fa-circle icon-succ'></i> Disponíveis: $disponiveis</p>
+                                                </div>
+                                            </div>
+                                            <div class='row'>
+                                                <div class='col-md-12'>
+                                                    <p class='pl-4' ><i class='far fa-circle icon-dang'></i> Emprestados: $emprestados</p>
+                                                </div>
+                                            </div>
+                                            <div class='row'>
+                                                <div class='col-md-12'>
+                                                    <p class='pl-4' ><i class='far fa-circle icon-war'></i> Reservados: $reservados</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>";
+                        if ($count2 == 2)
+                        {
+                            echo "</div>";
+                            $count2 = -1;
+                        }
+                        $count++; 
+                        $count2++;
+                    }   
             ?>
         <!-- </div> -->
     </div>

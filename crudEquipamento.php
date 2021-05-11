@@ -121,7 +121,7 @@ if ($act == "cadTipo") {
             $dados = mysqli_fetch_array($resSelectTipo);
 
             $sqlInsertEquip = "INSERT INTO tb_equipamento(identificador, estado, tb_tipoEquipamento_id)
-                                             VALUES ('" . $identificadorCadEquip . "', 'Disponível', " . $dados['id'] . ")";
+                                             VALUES ('" . $identificadorCadEquip . "', 'Disponivel', " . $dados['id'] . ")";
             $resInsertEquip = mysqli_query($con, $sqlInsertEquip) or die(mysqli_error($con));
 
             if ($resInsertEquip == true) {

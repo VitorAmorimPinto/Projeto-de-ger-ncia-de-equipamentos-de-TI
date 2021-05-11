@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+include("conexao.php");
 
 if($_GET["acao"] == "logar"){
 // Pegando variáveis lá do login

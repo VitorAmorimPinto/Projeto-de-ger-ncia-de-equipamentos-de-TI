@@ -82,6 +82,10 @@ footer {
   color:red;
   font-size: 0.7rem;
 }
+.icon-war{
+  color:rgb(251, 255, 0);
+  font-size: 0.7rem;
+}
 .effect-card:hover{
   border: 1px solid;
   padding: 10px;
