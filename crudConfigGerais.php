@@ -113,7 +113,7 @@ if ($act == "cadGestor") {
             if ($act == "cadSetor") {
                 $nomeSetor = trim($nomeSetor);
 
-                $sql = "SELECT * FROM tb_requerente WHERE tipo = 'Setor' AND nome = '" . $nomeSetor . "'";
+                $sql = "SELECT * FROM tb_requerente WHERE tb_tipo_requerente_id  = 3 AND nome = '" . $nomeSetor . "'";
                 $res = mysqli_query($con, $sql) or die(mysqli_error($con));
 
                 if (mysqli_num_rows($res) > 0) {
@@ -124,7 +124,7 @@ if ($act == "cadGestor") {
                             </script>
                         ";
                 } else {
-                    $sql = "INSERT INTO tb_requerente (tipo, nome) VALUES ('Setor', '" . $nomeSetor . "')";
+                    $sql = "INSERT INTO tb_requerente (tb_tipo_requerente_id, nome) VALUES (3, '" . $nomeSetor . "')";
                     $res = mysqli_query($con, $sql) or die(mysqli_error($con));
                     if ($res == true) {
                         echo "

@@ -37,7 +37,7 @@ include("conexao.php");
                             Equipamentos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.php">Equipamentos disponíveis</a></li>
+                            <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
                             <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
                         </ul>
                     </li>
@@ -162,7 +162,7 @@ include("conexao.php");
                     <form class="" method="POST" action="crudConfigGerais.php?act=cadInfoEstabelecimento">
                         <label>Nome</label>
                         <?php
-                        echo "<input type='text' name='nomeEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['nome'] . "'>";
+                        echo "<input type='text' name='nomeEstabelecimento' class='form-control' value='" . @$dadosEstabelecimento['nome'] . "'>";
                         ?>
                 </div>
             </div>
@@ -170,7 +170,7 @@ include("conexao.php");
                 <div>
                     <label>Telefone</label>
                     <?php
-                    echo "<input type='text' name='telefoneEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['telefone'] . "'>";
+                    echo "<input type='text' name='telefoneEstabelecimento' class='form-control' value='" . @$dadosEstabelecimento['telefone'] . "'>";
                     ?>
                 </div>
             </div>
@@ -180,7 +180,7 @@ include("conexao.php");
                 <div>
                     <label>Endereço</label>
                     <?php
-                    echo "<input type='text' name='enderecoEstabelecimento' class='form-control' value='" . $dadosEstabelecimento['endereco'] . "'>";
+                    echo "<input type='text' name='enderecoEstabelecimento' class='form-control' value='" . @$dadosEstabelecimento['endereco'] . "'>";
                     ?>
                     <input type="submit" value="Cadastrar" class="btn mt-4 bg-menu text-white">
                     </form>
