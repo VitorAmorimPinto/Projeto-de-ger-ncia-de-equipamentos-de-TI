@@ -337,11 +337,16 @@ button.close {
   }
 
 
-  /*CSS DO INDEX*/
+  /*CSS DA TELA INICIAL*/
   .effect-card{
     margin-top:10px;
   }
 
+}
+@media (min-width: 992px) {
+  .modal-xl {
+    max-width: 1140px;
+  }
 }
 
 .logo-colorida{
@@ -381,3 +386,4 @@ button.close {
 .text-botao {
   color: #151c48;
 }
+

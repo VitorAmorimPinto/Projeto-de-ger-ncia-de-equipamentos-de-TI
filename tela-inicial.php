@@ -145,31 +145,26 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                            <label>Patrimônio</label>
-                            <input type="text" name="patrimonio" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Tipo do equipamento</label>
-                            <input type="text" name="equipamento" class="form-control" readonly>
-                        </div>
+                        <h5>Dados do Requerente</h5>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Tipo do Requerente</label><br>
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="1">Aluno</option>
-                                <option value="2">Professor</option>
-                                <option value="3">Funcionário</option>
+                            <label>Selecione o tipo de identificador</label>
+                            <select class="form-control" aria-label="Default select example">
+                                <option value="1">RA</option>
+                                <option value="2">CPF</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label>E-mail do Funcionário</label><br>
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="1">...</option>
-                                <option value="2">...</option>
-                                <option value="3">...</option>
-                            </select>
+                            <form method="" action="">
+                                <label>Identificador</label><br>
+                                <div class="input-group ">
+                                    <input type="search" name="buscar" class="form-control">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn bg-menu text-light"><i class="fas fa-search"></i></button>
+                                    </div>  
+                                </div>                                     
+                            </form>
                         </div>
                     </div>
                     <div class="row">
@@ -178,19 +173,42 @@
                             <input type="text" name="nomeRequerente" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label>Registro do requerente</label>
-                            <input type="text" name="registroRequerente" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
                             <label>E-mail do requerente</label>
                             <input type="text" name="emailRequerente" class="form-control">
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <h5>Dados do Equipamento</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Selecione o Patrimônio</label>
+                                <select class="form-control" aria-label="Default select example">
+                                    <option value="1">...</option>
+                                    <option value="2">...</option>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>tipo</label>
+                            <input type="text" name="tipo" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <h5>Dados do Funcionário</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Selecione o e-mail</label>
+                                <select class="form-control" aria-label="Default select example">
+                                    <option value="1">...</option>
+                                    <option value="2">...</option>
+                                </select>
+                        </div>
+                        
+                    </div>
                     <div class="row mt-4">
                         <div class="col-md-6 mx-auto text-center">
-                            <button class="btn btn-primary mx-auto" type="button">Registrar Empréstimo</button>
+                            <button class="btn bg-menu text-light mx-auto" type="button">Registrar Empréstimo</button>
                         </div>
                     </div>
                 </div>
