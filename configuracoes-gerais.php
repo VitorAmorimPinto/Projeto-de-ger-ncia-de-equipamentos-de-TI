@@ -33,7 +33,7 @@ include("conexao.php");
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="index.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="tela-inicial.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Equipamentos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -113,7 +113,7 @@ include("conexao.php");
                         <span><button type="button" class="btn btn-outline-dark btn-sm " id="btn-remove" data-bs-toggle="modal" data-bs-target="#modalRemoverEmailFuncionario">x</button></span>
                         <select class="form-control">
                             <?php
-                            $sql = "SELECT * FROM tb_funcionario WHERE cargo = 'Funcionário'";
+                            $sql = "SELECT * FROM tb_funcionario WHERE cargo = 'Funcionario'";
                             $res = mysqli_query($con, $sql);
 
                             while ($linha = mysqli_fetch_array($res)) {

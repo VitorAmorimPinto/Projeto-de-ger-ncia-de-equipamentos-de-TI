@@ -6,3 +6,4 @@ $("#selectTipoEquip").on("change", function(){
   function changeImg(imgName) {
     $("#img-card").attr('src', `img/${imgName}.jpg`)
   }
+

@@ -70,7 +70,7 @@ if ($act == "cadGestor") {
                     ";
         } else {
 
-            $sql = "INSERT INTO tb_funcionario(email, cargo) VALUES ('" . $emailFuncionario . "', 'Funcionário')";
+            $sql = "INSERT INTO tb_funcionario(email, cargo) VALUES ('" . $emailFuncionario . "', 'Funcionario')";
             $res = mysqli_query($con, $sql) or die(mysqli_error($con));
 
             if ($res == true) {

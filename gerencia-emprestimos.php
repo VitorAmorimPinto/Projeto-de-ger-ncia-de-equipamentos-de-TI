@@ -1,8 +1,10 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["usuario"])){
-        header("Location:index.php");       
-        }
+session_start();
+if (!isset($_SESSION["usuario"])) {
+    header("Location:index.php");
+}
+
+include("conexao.php");
 ?>
 
 <!DOCTYPE html>
@@ -23,39 +25,39 @@
         <div class="container-fluid">
             <a class="navbar-brand text-logo" href="#">Equipamentos - T.I</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Equipamentos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
-                      <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Empréstimos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item disabled" href="">Gerenciar empréstimos</a></li>
-                      <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="configuracoes-gerais.php" >
-                        Configurações gerais
-                    </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Equipamentos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
+                            <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
+                        </ul>
                     </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="#"  data-bs-toggle="modal" data-bs-target="#modalSobre">
-                        Sobre
-                      </a>
-                </li>
-            </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Empréstimos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item disabled" href="">Gerenciar empréstimos</a></li>
+                            <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="configuracoes-gerais.php">
+                            Configurações gerais
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="#" data-bs-toggle="modal" data-bs-target="#modalSobre">
+                            Sobre
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -78,8 +80,7 @@
                             <option value="requerente">Requerente</option>
                         </select>
 
-                        <input class="form-control ml-auto" type="search" placeholder="Digite aqui..."
-                            aria-label="Search">
+                        <input class="form-control ml-auto" type="search" placeholder="Digite aqui..." aria-label="Search">
                         <input type="submit" value="Pesquisar" class="btn btn-danger">
                     </form>
                 </div>
@@ -87,186 +88,99 @@
 
             <div id="gerencia-emprestimos-content">
 
-                <!--Item do histórico-->
-                <div class="row border-bottom gerencia-emprestimos-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 gerencia-emprestimos-img">
-                        <img src="./img/fone-de-ouvido.jpg" alt="">
-                    </div>
+                <?php
+                $sqlEmprestimo = "SELECT * FROM emprestimo WHERE estado ='Em andamento' ORDER BY data_emprestimo ASC";
+                $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
 
-                    <!--Conteúdo-->
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6 gerencia-emprestimos-type">
-                                <h5>Fone de ouvido</h5>
+                while ($emprestimo = mysqli_fetch_array($resEmprestimo)) {
+                    $sqlEquipamento = "SELECT * FROM tb_equipamento WHERE identificador =" . $emprestimo['tb_equipamento_identificador'] . "";
+                    $resEquipamento = mysqli_query($con, $sqlEquipamento);
+                    $equipamento = mysqli_fetch_array($resEquipamento);
+
+                    $sqlTipoEquipamento = "SELECT * FROM tb_tipoequipamento WHERE id =" . $equipamento['tb_tipoEquipamento_id'] . "";
+                    $resTipoEquipamento = mysqli_query($con, $sqlTipoEquipamento);
+                    $tipoEquipamento = mysqli_fetch_array($resTipoEquipamento);
+
+                    $sqlRequerente = "SELECT * FROM tb_requerente WHERE id =" . $emprestimo['tb_requerente_id'] . "";
+                    $resRequerente = mysqli_query($con, $sqlRequerente);
+                    $requerente = mysqli_fetch_array($resRequerente);
+
+                    $sqlRequerente = "SELECT * FROM tb_requerente WHERE id =" . $emprestimo['tb_requerente_id'] . "";
+                    $resRequerente = mysqli_query($con, $sqlRequerente);
+                    $requerente = mysqli_fetch_array($resRequerente);
+
+                    $sqlTipoRequerente = "SELECT * FROM tb_tipo_requerente WHERE id =" . $requerente['tb_tipo_requerente_id'] . "";
+                    $resTipoRequerente = mysqli_query($con, $sqlTipoRequerente);
+                    $tipoRequerente = mysqli_fetch_array($resTipoRequerente);
+
+                    //Formata a data
+                    $data = date_create($emprestimo['data_emprestimo']);
+                    $dataEmprestimoFormatada = date_format($data, 'd/m/Y H:i');
+
+                    echo "
+                            
+                            <div class='row border-bottom historico-items'>
+                                
+                                <div class='col-md-2 historico-img'>
+                                    <img src='./img/" . $tipoEquipamento['imagem'] . "' alt=''>
+                                </div>
+            
+                                
+                                <div class='col-md-8'>
+            
+                                    <div class='row'>
+                                        <div class='col-md-6 historico-type'>
+                                            <h5>" . $tipoEquipamento['tipo'] . "</h5>
+                                        </div>
+                                        <div class='col-md-6 historico-emprestimo-date'>
+                                            <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
+                                        </div>
+                                    </div>
+            
+                                    <div class='row'>
+                                        <div class='col-md-4'>Identificador: " . $equipamento['identificador'] . "</div>
+                                        <div class='col-md-4'>Nome do requerente: " . $requerente['nome'] . "</div>
+                                    </div>
+            
+                                    <div class='row'>
+                                        <div class='col-md-4'>Tipo do requerente: " . $tipoRequerente['tipo'] . "</div>
+                                        <div class='col-md-4'>RA: " . $requerente['ra'] . "</div>
+                                    </div>
+                                </div>
+
+                                <!--Botões-->
+                                <div class='col-md-2'>
+                                    <div class='row' style='height: 50%;'>
+                                        <form method='POST' action='crudEmprestimo.php?act=finalizarEmprestimo' style='width:100%'>
+                                            <input type='text' name='idEmprestimo' value='".$emprestimo['id']."' style='display:none'>
+                                            <button type='submit' class='btn btn-labeled btn-success btn-emprestimo btn-finalizarEmprestimo'>
+                                                <span class='btn-label'><i class='fa fa-check'></i></span> Finalizar
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class='row' style='height: 50%;'>
+                                        <form method='POST' action='crudEmprestimo.php?act=cancelarEmprestimo' style='width:100%'>
+                                            <input type='text' name='idEmprestimo' value='".$emprestimo['id']."' style='display:none'>
+                                            <button type='submit' class='btn btn-labeled btn-danger btn-emprestimo btn-cancelarEmprestimo'>
+                                                <span class='btn-label'><i class='fa fa-times'></i></span> Cancelar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+            
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 123456</div>
-                            <div class="col-md-4">Nome do requerente: Huguinho</div>
-                            <div class="col-md-4">Data de empréstimo: 26/03/2020 11:32</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Aluno</div>
-                            <div class="col-md-4">RA: 6920100456</div>
-                        </div>
-                    </div>
-
-                    <!--Botões-->
-                    <div class="col-md-2">
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-success btn-emprestimo" data-bs-toggle="modal"
-                            data-bs-target="#modalFinalizar">
-                                <span class="btn-label"><i class="fa fa-check"></i></span> Finalizar
-                            </button>
-                        </div>
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-danger btn-emprestimo" data-bs-toggle="modal"
-                                data-bs-target="#modalCancelar">
-                                <span class="btn-label"><i class="fa fa-times"></i></span> Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom gerencia-emprestimos-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 gerencia-emprestimos-img">
-                        <img src="./img/notebook.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6 gerencia-emprestimos-type">
-                                <h5>Notebook</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 753159</div>
-                            <div class="col-md-4">Nome do requerente: Zézinho</div>
-                            <div class="col-md-4">Data de empréstimo: 26/03/2020 10:40</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Funcionário</div>
-                            <div class="col-md-4">RA: 6920100123</div>
-                        </div>
-                    </div>
-
-                    <!--Botões-->
-                    <div class="col-md-2">
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-success btn-emprestimo" data-bs-toggle="modal"
-                            data-bs-target="#modalFinalizar">
-                                <span class="btn-label"><i class="fa fa-check"></i></span> Finalizar
-                            </button>
-                        </div>
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-danger btn-emprestimo" data-bs-toggle="modal"
-                                data-bs-target="#modalCancelar">
-                                <span class="btn-label"><i class="fa fa-times"></i></span> Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom gerencia-emprestimos-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 gerencia-emprestimos-img">
-                        <img src="./img/fone-de-ouvido.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6 gerencia-emprestimos-type">
-                                <h5>Fone de ouvido</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 789456</div>
-                            <div class="col-md-4">Nome do requerente: Luisinho</div>
-                            <div class="col-md-4">Data de empréstimo: 26/03/2020 18:54</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Aluno</div>
-                            <div class="col-md-4">RA: 6920100789</div>
-                        </div>
-                    </div>
-
-                    <!--Botões-->
-                    <div class="col-md-2">
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-success btn-emprestimo" data-bs-toggle="modal"
-                            data-bs-target="#modalFinalizar">
-                                <span class="btn-label"><i class="fa fa-check"></i></span> Finalizar
-                            </button>
-                        </div>
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-danger btn-emprestimo" data-bs-toggle="modal"
-                                data-bs-target="#modalCancelar">
-                                <span class="btn-label"><i class="fa fa-times"></i></span> Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom gerencia-emprestimos-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 gerencia-emprestimos-img">
-                        <img src="./img/tablet.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6 gerencia-emprestimos-type">
-                                <h5>Tablet</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 123456</div>
-                            <div class="col-md-4">Nome do requerente: Marketing</div>
-                            <div class="col-md-4">Data de empréstimo: 26/03/2020 15:48</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Setor</div>
-                            <div class="col-md-4">RA: -</div>
-                        </div>
-                    </div>
-
-                    <!--Botões-->
-                    <div class="col-md-2">
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-success btn-emprestimo" data-bs-toggle="modal"
-                            data-bs-target="#modalFinalizar">
-                                <span class="btn-label"><i class="fa fa-check"></i></span> Finalizar
-                            </button>
-                        </div>
-                        <div class="row" style="height: 50%;">
-                            <button type="button" class="btn btn-labeled btn-danger btn-emprestimo" data-bs-toggle="modal"
-                                data-bs-target="#modalCancelar">
-                                <span class="btn-label"><i class="fa fa-times"></i></span> Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
+                        ";
+                }
+                ?>
 
             </div>
 
         </div>
+
     </div>
 
     <!-- Modal sobre-->
-    <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -297,8 +211,7 @@
     <!--Aqui termina o modal sobre-->
 
     <!-- Modal Cancelar-->
-    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -319,8 +232,7 @@
     </div>
 
     <!-- Modal Finalizar-->
-    <div class="modal fade" id="modalFinalizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalFinalizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -341,8 +253,7 @@
     </div>
 
     <!-- Modal Finalizar Sucesso-->
-    <div class="modal fade" id="modalFinalizarSucesso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalFinalizarSucesso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -363,5 +274,6 @@
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="./js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 </html>
