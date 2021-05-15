@@ -15,7 +15,7 @@ if($act == "finalizarEmprestimo")
     $resSelect = mysqli_query($con, $sqlSelect) or die(mysqli_error($con));
     $identificadorEquipamento = mysqli_fetch_array($resSelect);
 
-    $sql = "UPDATE emprestimo SET data_devolucao = '".$dataDevolucao."',  estado = 'Finalzado' WHERE id = ".$idEmprestimo."";
+    $sql = "UPDATE emprestimo SET data_devolucao = '".$dataDevolucao."',  estado = 'Finalizado' WHERE id = ".$idEmprestimo."";
     $res = mysqli_query($con, $sql) or die(mysqli_error($con));
 
     if($res == true)

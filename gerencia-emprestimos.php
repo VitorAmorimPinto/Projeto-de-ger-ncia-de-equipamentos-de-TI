@@ -89,62 +89,53 @@ include("conexao.php");
             <div id="gerencia-emprestimos-content">
 
                 <?php
-                $sqlEmprestimo = "SELECT * FROM emprestimo WHERE estado ='Em andamento' ORDER BY data_emprestimo ASC";
+                $sqlEmprestimo = "  SELECT e.id, tipoE.tipo, tipoE.imagem, e.data_emprestimo, eq.identificador, r.nome, r.ra, tipoR.tipo
+                                    FROM emprestimo AS e
+                                    INNER JOIN tb_requerente AS r
+                                    ON e.tb_requerente_id = r.id
+                                    INNER JOIN tb_tipo_requerente AS tipoR
+                                    ON r.tb_tipo_requerente_id = tipoR.id
+                                    INNER JOIN tb_equipamento AS eq
+                                    ON e.tb_equipamento_identificador = eq.identificador
+                                    INNER JOIN tb_tipoequipamento AS tipoE
+                                    ON eq.tb_tipoEquipamento_id = tipoE.id
+                                    WHERE e.estado = 'Em andamento'
+                ";
                 $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
 
                 while ($emprestimo = mysqli_fetch_array($resEmprestimo)) {
-                    $sqlEquipamento = "SELECT * FROM tb_equipamento WHERE identificador =" . $emprestimo['tb_equipamento_identificador'] . "";
-                    $resEquipamento = mysqli_query($con, $sqlEquipamento);
-                    $equipamento = mysqli_fetch_array($resEquipamento);
-
-                    $sqlTipoEquipamento = "SELECT * FROM tb_tipoequipamento WHERE id =" . $equipamento['tb_tipoEquipamento_id'] . "";
-                    $resTipoEquipamento = mysqli_query($con, $sqlTipoEquipamento);
-                    $tipoEquipamento = mysqli_fetch_array($resTipoEquipamento);
-
-                    $sqlRequerente = "SELECT * FROM tb_requerente WHERE id =" . $emprestimo['tb_requerente_id'] . "";
-                    $resRequerente = mysqli_query($con, $sqlRequerente);
-                    $requerente = mysqli_fetch_array($resRequerente);
-
-                    $sqlRequerente = "SELECT * FROM tb_requerente WHERE id =" . $emprestimo['tb_requerente_id'] . "";
-                    $resRequerente = mysqli_query($con, $sqlRequerente);
-                    $requerente = mysqli_fetch_array($resRequerente);
-
-                    $sqlTipoRequerente = "SELECT * FROM tb_tipo_requerente WHERE id =" . $requerente['tb_tipo_requerente_id'] . "";
-                    $resTipoRequerente = mysqli_query($con, $sqlTipoRequerente);
-                    $tipoRequerente = mysqli_fetch_array($resTipoRequerente);
-
                     //Formata a data
                     $data = date_create($emprestimo['data_emprestimo']);
                     $dataEmprestimoFormatada = date_format($data, 'd/m/Y H:i');
 
                     echo "
                             
-                            <div class='row border-bottom historico-items'>
+                            <div class='row border-bottom gerencia-emprestimos-items'>
                                 
-                                <div class='col-md-2 historico-img'>
-                                    <img src='./img/" . $tipoEquipamento['imagem'] . "' alt=''>
+                                <div class='col-md-2 gerencia-emprestimos-img'>
+                                    <img src='./img/" . $emprestimo['imagem'] . "' alt=''>
                                 </div>
             
                                 
                                 <div class='col-md-8'>
             
                                     <div class='row'>
-                                        <div class='col-md-6 historico-type'>
-                                            <h5>" . $tipoEquipamento['tipo'] . "</h5>
+                                        <div class='col-md-6 gerencia-emprestimos-type'>
+                                            <h5>" . $emprestimo['tipo'] . "</h5>
                                         </div>
-                                        <div class='col-md-6 historico-emprestimo-date'>
+                                        <div class='col-md-6 gerencia-emprestimos-emprestimo-date'>
                                             <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
                                         </div>
                                     </div>
             
                                     <div class='row'>
-                                        <div class='col-md-4'>Identificador: " . $equipamento['identificador'] . "</div>
-                                        <div class='col-md-4'>Nome do requerente: " . $requerente['nome'] . "</div>
+                                        <div class='col-md-4'>Identificador: " . $emprestimo['identificador'] . "</div>
+                                        <div class='col-md-4'>Nome do requerente: " . $emprestimo['nome'] . "</div>
                                     </div>
             
                                     <div class='row'>
-                                        <div class='col-md-4'>Tipo do requerente: " . $tipoRequerente['tipo'] . "</div>
-                                        <div class='col-md-4'>RA: " . $requerente['ra'] . "</div>
+                                        <div class='col-md-4'>Tipo do requerente: " . $emprestimo['tipo'] . "</div>
+                                        <div class='col-md-4'>RA: " . $emprestimo['ra'] . "</div>
                                     </div>
                                 </div>
 

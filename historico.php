@@ -89,138 +89,61 @@
             </div>
 
             <div id="historico-content">
+            
+            <?php
+                $sqlEmprestimo = "  SELECT e.id, tipoE.tipo AS tipoEq, tipoE.imagem, e.data_emprestimo, e.data_devolucao, eq.identificador, r.nome, r.ra, tipoR.tipo AS tipoReq
+                                    FROM emprestimo AS e
+                                    INNER JOIN tb_requerente AS r
+                                    ON e.tb_requerente_id = r.id
+                                    INNER JOIN tb_tipo_requerente AS tipoR
+                                    ON r.tb_tipo_requerente_id = tipoR.id
+                                    INNER JOIN tb_equipamento AS eq
+                                    ON e.tb_equipamento_identificador = eq.identificador
+                                    INNER JOIN tb_tipoequipamento AS tipoE
+                                    ON eq.tb_tipoEquipamento_id = tipoE.id
+                                    WHERE e.estado = 'Finalizado'
+                                    ORDER BY e.data_devolucao DESC
+                ";
+                $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
 
-                <!--Item do histórico-->
-                <div class="row border-bottom historico-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 historico-img">
-                        <img src="./img/fone-de-ouvido.jpg" alt="">
-                    </div>
+                while ($emprestimo = mysqli_fetch_array($resEmprestimo)) {
+                    //Formata a data
+                    $dataEmprestimo = date_create($emprestimo['data_emprestimo']);
+                    $dataDevolucao = date_create($emprestimo['data_devolucao']);
+                    $dataEmprestimoFormatada = date_format($dataEmprestimo, 'd/m/Y H:i');
+                    $dataDevolucaoFormatada = date_format($dataDevolucao, 'd/m/Y H:i');
 
-                    <!--Conteúdo-->
-                    <div class="col-md-10">
-
-                        <div class="row">
-                            <div class="col-md-6 historico-type">
-                                <h5>Fone de ouvido</h5>
+                    echo "
+                            <div class='row border-bottom historico-items'>
+                                <div class='col-md-2 historico-img'>
+                                    <img src='./img/" . $emprestimo['imagem'] . "' alt=''>
+                                </div>
+            
+                                <div class='col-md-10'>
+                                    <div class='row'>
+                                        <div class='col-md-6 historico-type'>
+                                            <h5>" . $emprestimo['tipoEq'] . "</h5>
+                                        </div>
+                                        <div class='col-md-6 historico-emprestimo-date'>
+                                            <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
+                                        </div>
+                                    </div>
+            
+                                    <div class='row'>
+                                        <div class='col-md-4'>Identificador: " . $emprestimo['identificador'] . "</div>
+                                        <div class='col-md-4'>Nome do requerente: " . $emprestimo['nome'] . "</div>
+                                        <div class='col-md-4'>Data de devolução: ".$dataDevolucaoFormatada."</div>
+                                    </div>
+            
+                                    <div class='row'>
+                                        <div class='col-md-4'>Tipo do requerente: " . $emprestimo['tipoReq'] . "</div>
+                                        <div class='col-md-4'>RA: " . $emprestimo['ra'] . "</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6 historico-emprestimo-date">
-                                <h5>Data de empréstimo: 26/03/2021 10:05</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 123456</div>
-                            <div class="col-md-4">Nome do requerente: Huguinho</div>
-                            <div class="col-md-4">Data de devolução: 26/03/2020 11:32</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Aluno</div>
-                            <div class="col-md-4">RA: 6920100456</div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom historico-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 historico-img">
-                        <img src="./img/notebook.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-10">
-
-                        <div class="row">
-                            <div class="col-md-6 historico-type">
-                                <h5>Notebook</h5>
-                            </div>
-                            <div class="col-md-6 historico-emprestimo-date">
-                                <h5>Data de empréstimo: 26/03/2021 09:25</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 753159</div>
-                            <div class="col-md-4">Nome do requerente: Zézinho</div>
-                            <div class="col-md-4">Data de devolução: 26/03/2020 10:40</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Funcionário</div>
-                            <div class="col-md-4">RA: 6920100123</div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom historico-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 historico-img">
-                        <img src="./img/fone-de-ouvido.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-10">
-
-                        <div class="row">
-                            <div class="col-md-6 historico-type">
-                                <h5>Fone de ouvido</h5>
-                            </div>
-                            <div class="col-md-6 historico-emprestimo-date">
-                                <h5>Data de empréstimo: 25/03/2021 16:26</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 789456</div>
-                            <div class="col-md-4">Nome do requerente: Luisinho</div>
-                            <div class="col-md-4">Data de devolução: 26/03/2020 18:54</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Aluno</div>
-                            <div class="col-md-4">RA: 6920100789</div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--Item do histórico-->
-                <div class="row border-bottom historico-items">
-                    <!--Imagem-->
-                    <div class="col-md-2 historico-img">
-                        <img src="./img/tablet.jpg" alt="">
-                    </div>
-
-                    <!--Conteúdo-->
-                    <div class="col-md-10">
-
-                        <div class="row">
-                            <div class="col-md-6 historico-type">
-                                <h5>Tablet</h5>
-                            </div>
-                            <div class="col-md-6 historico-emprestimo-date">
-                                <h5>Data de empréstimo: 25/03/2020 14:02</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Patrimônio: 123456</div>
-                            <div class="col-md-4">Nome do requerente: Marketing</div>
-                            <div class="col-md-4">Data de devolução: 26/03/2020 15:48</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">Tipo do requerente: Setor</div>
-                            <div class="col-md-4">RA: -</div>
-                        </div>
-                    </div>
-
-                </div>
+                        ";
+                }
+                ?>
 
             </div>
 
