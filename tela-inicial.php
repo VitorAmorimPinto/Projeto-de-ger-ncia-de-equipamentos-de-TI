@@ -131,6 +131,7 @@
                     }   
             ?>
         <!-- </div> -->
+        
     </div>
 <div class="modal fade" id="modalRealizarEmprestimo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -150,18 +151,18 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Selecione o tipo de identificador</label>
-                            <select class="form-control" aria-label="Default select example">
-                                <option value="1">RA</option>
-                                <option value="2">CPF</option>
+                            <select class="form-control" name="tipo" aria-label="Default select example">
+                                <option value="ra">RA</option>
+                                <option value="cpf">CPF</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <form method="" action="">
                                 <label>Identificador</label><br>
                                 <div class="input-group ">
-                                    <input type="search" name="buscar" class="form-control">
+                                    <input type="text" name="pesquisar" class="form-control">
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn bg-menu text-light"><i class="fas fa-search"></i></button>
+                                        <button type="button" id="buscar" class="btn bg-menu text-light"><i class="fas fa-search"></i></button>
                                     </div>  
                                 </div>                                     
                             </form>
@@ -170,11 +171,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Nome do Requerente</label>
-                            <input type="text" name="nomeRequerente" class="form-control">
+                            <input type="text" name="nomeRequerente" id="nomeRequerente" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label>E-mail do requerente</label>
-                            <input type="text" name="emailRequerente" class="form-control">
+                            <input type="text" name="emailRequerente" id="emailRequerente" class="form-control">
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -250,4 +251,6 @@
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/script.js"></script>
 </html>
