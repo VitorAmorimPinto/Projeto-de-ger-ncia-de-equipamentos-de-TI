@@ -1,8 +1,8 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["usuario"])){
-        header("Location:index.php");       
-        }
+session_start();
+if (!isset($_SESSION["usuario"])) {
+    header("Location:index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,10 +87,10 @@ include("conexao.php");
                         <span><button type="button" class="btn btn-outline-dark btn-sm btn-add" data-bs-toggle="modal" data-bs-target="#modalCadastroEmailGestor">+</button></span>
 
                         <?php
-                        $sql = "SELECT * FROM tb_funcionario WHERE cargo = 'Gestor'";
+                        $sql = "SELECT * FROM tb_usuario WHERE cargo = 'Gestor'";
                         $res = mysqli_query($con, $sql);
 
-                        if (mysqli_num_rows($res) == 1) {
+                        if (mysqli_num_rows($res) > 0) {
                             $dados = mysqli_fetch_array($res);
                             echo "
                                     <input type='text' name='gestor' class='form-control' value='" . $dados['email'] . "' disabled>
@@ -113,7 +113,7 @@ include("conexao.php");
                         <span><button type="button" class="btn btn-outline-dark btn-sm " id="btn-remove" data-bs-toggle="modal" data-bs-target="#modalRemoverEmailFuncionario">x</button></span>
                         <select class="form-control">
                             <?php
-                            $sql = "SELECT * FROM tb_funcionario WHERE cargo = 'Funcionario'";
+                            $sql = "SELECT * FROM tb_usuario WHERE cargo = 'Funcionario'";
                             $res = mysqli_query($con, $sql);
 
                             while ($linha = mysqli_fetch_array($res)) {
@@ -136,7 +136,7 @@ include("conexao.php");
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <form class="" method="POST" action="crudConfigGerais.php?act=cadSetor">
+                    <form class="" method="POST" id="cadSetor">
                         <label>Nome </label>
                         <input type="text" name="nomeSetor" class="form-control">
                         <input type="submit" value="Cadastrar setor" class="btn mt-4 bg-menu text-white">
@@ -159,7 +159,7 @@ include("conexao.php");
                     $dadosEstabelecimento = mysqli_fetch_array($res);
                     ?>
 
-                    <form class="" method="POST" action="crudConfigGerais.php?act=cadInfoEstabelecimento">
+                    <form class="" method="POST" id="cadInfoEstabelecimento">
                         <label>Nome</label>
                         <?php
                         echo "<input type='text' name='nomeEstabelecimento' class='form-control' value='" . @$dadosEstabelecimento['nome'] . "'>";
@@ -182,7 +182,7 @@ include("conexao.php");
                     <?php
                     echo "<input type='text' name='enderecoEstabelecimento' class='form-control' value='" . @$dadosEstabelecimento['endereco'] . "'>";
                     ?>
-                    <input type="submit" value="Cadastrar" class="btn mt-4 bg-menu text-white">
+                    <input type="submit" value="Salvar informações" class="btn mt-4 bg-menu text-white">
                     </form>
 
                 </div>
@@ -202,7 +202,7 @@ include("conexao.php");
                     </button>
                 </div>
 
-                <form method="POST" action="crudConfigGerais.php?act=cadGestor">
+                <form method="POST" id="cadGestor">
                     <div class="modal-body">
                         <label>E-mail</label>
                         <input type="email" name="emailGestor" class="form-control" required>
@@ -223,16 +223,19 @@ include("conexao.php");
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Novo email do funcionário</h5>
+                    <h5 class="modal-title">Novo funcionário</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
                 </div>
 
-                <form method="POST" action="crudConfigGerais.php?act=cadFuncionario">
+                <form method="POST" id="cadFuncionario">
                     <div class="modal-body">
-                        <label>Cadastrar e-mail</label>
+                        <label>E-mail</label>
                         <input type="email" name="emailFuncionario" class="form-control" required>
+                        <label>Senha</label>
+                        <input type="password" name="senhaFuncionario" id="senhaFuncionario" class="form-control" required>
+                        <input type="checkbox" onclick="mostrarSenha()"> Mostrar senha
                     </div>
                     <div class="modal-footer">
                         <input type="submit" value="Salvar" class="btn bg-menu text-white">
@@ -256,12 +259,12 @@ include("conexao.php");
                     </button>
                 </div>
 
-                <form method="POST" action="crudConfigGerais.php?act=delFuncionario">
+                <form method="POST" id="delFuncionario">
                     <div class="modal-body">
-                        <label>Selecione o e-mail a ser removido</label>
+                        <label>Selecione o e-mail do funcionário a ser removido</label>
                         <select class="form-control" name="delEmailFuncionario">
                             <?php
-                            $sql = "SELECT * FROM tb_funcionario WHERE cargo = 'Funcionário'";
+                            $sql = "SELECT * FROM tb_usuario WHERE cargo = 'Funcionario'";
                             $res = mysqli_query($con, $sql);
 
                             while ($linha = mysqli_fetch_array($res)) {
@@ -288,9 +291,156 @@ include("conexao.php");
 
 <!--Para aplicar máscara de formatação ao campo de telefone-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+<!--Sweet Alert-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
-    $("#telefone").mask("(99) 99999-9999");
+    //Máscara do telefone
+    $("input[name='telefoneEstabelecimento']").mask("(99) 99999-9999");
+
+    //Mostrar a senha do funcionário
+    function mostrarSenha() {
+        var x = document.getElementById("senhaFuncionario");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    $("#cadFuncionario").submit(function(e) {
+        e.preventDefault();
+        $("#modalCadastroEmailFuncionario").modal('hide');
+        var emailFuncionario = $("input[name='emailFuncionario']").val();
+        var senhaFuncionario = $("input[name='senhaFuncionario']").val();
+        console.log("aqui")
+        var dados = {
+            emailFuncionario: emailFuncionario,
+            senhaFuncionario: senhaFuncionario,
+            act: "cadFuncionario"
+        }
+
+        $.post('crudConfigGerais.php', dados)
+            .done(
+                async function(retorno) {
+                    console.log(retorno)
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    $("input[name='emailFuncionario']").val("");
+                    location.reload()
+                }
+            )
+    });
+
+    $("#cadGestor").submit(function(e) {
+        e.preventDefault();
+        $("#modalCadastroEmailGestor").modal('hide');
+        var emailGestor = $("input[name='emailGestor']").val();
+
+        var dados = {
+            emailGestor: emailGestor,
+            act: "cadGestor"
+        }
+
+        $.post('crudConfigGerais.php', dados)
+            .done(
+                //Função assíncrona que espera o alerta ser fechado para dar refresh na página
+                async function(retorno) {
+                    console.log(retorno)
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    $("input[name='emailGestor']").val("");
+                    location.reload()
+                }
+            )
+    });
+
+    $("#delFuncionario").submit(function(e) {
+        e.preventDefault();
+        $("#modalRemoverEmailFuncionario").modal('hide');
+        var delEmailFuncionario = $("select[name='delEmailFuncionario']").val();
+
+        var dados = {
+            delEmailFuncionario: delEmailFuncionario,
+            act: "delFuncionario"
+        }
+
+        $.post('crudConfigGerais.php', dados)
+            .done(
+                async function(retorno) {
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    location.reload()
+                }
+            )
+    });
+
+    $("#cadSetor").submit(function(e) {
+        e.preventDefault();
+        var nomeSetor = $("input[name='nomeSetor']").val();
+
+        var dados = {
+            nomeSetor: nomeSetor,
+            act: "cadSetor"
+        }
+
+        $.post('crudConfigGerais.php', dados)
+            .done(
+                async function(retorno) {
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    $("input[name='nomeSetor']").val("");
+                    location.reload()
+                }
+            )
+    });
+
+    $("#cadInfoEstabelecimento").submit(function(e) {
+        e.preventDefault();
+        var nomeEstabelecimento = $("input[name='nomeEstabelecimento']").val();
+        var telefoneEstabelecimento = $("input[name='telefoneEstabelecimento']").val();
+        var enderecoEstabelecimento = $("input[name='enderecoEstabelecimento']").val();
+
+        var dados = {
+            nomeEstabelecimento: nomeEstabelecimento,
+            telefoneEstabelecimento: telefoneEstabelecimento,
+            enderecoEstabelecimento,
+            enderecoEstabelecimento,
+            act: "cadInfoEstabelecimento"
+        }
+
+        $.post('crudConfigGerais.php', dados)
+            .done(
+                async function(retorno) {
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    $("input[name='nomeEstabelecimento']").val("");
+                    $("input[name='telefoneEstabelecimento']").val("");
+                    $("input[name='enderecoEstabelecimento']").val("");
+                    location.reload()
+                }
+            )
+    });
 </script>
 
 </html>

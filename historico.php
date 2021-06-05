@@ -1,9 +1,9 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["usuario"])){
-        header("Location:index.php");       
-        }
-    include("conexao.php");
+session_start();
+if (!isset($_SESSION["usuario"])) {
+    header("Location:index.php");
+}
+include("conexao.php");
 ?>
 
 <!DOCTYPE html>
@@ -23,39 +23,39 @@
         <div class="container-fluid">
             <a class="navbar-brand text-logo" href="#">Equipamentos - T.I</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Equipamentos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
-                      <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Empréstimos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
-                      <li><a class="dropdown-item disabled" href="">Histórico de Empréstimos</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="configuracoes-gerais.php" >
-                        Configurações gerais
-                    </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Equipamentos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
+                            <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
+                        </ul>
                     </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="#"  data-bs-toggle="modal" data-bs-target="#modalSobre">
-                        Sobre
-                      </a>
-                </li>
-            </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Empréstimos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
+                            <li><a class="dropdown-item disabled" href="">Histórico de Empréstimos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="configuracoes-gerais.php">
+                            Configurações gerais
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="#" data-bs-toggle="modal" data-bs-target="#modalSobre">
+                            Sobre
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -81,27 +81,28 @@
                             <option value="data-devolucao">Data de devolução</option>
                         </select>
 
-                        <input class="form-control ml-auto" type="search" placeholder="Digite aqui..."
-                            aria-label="Search">
+                        <input class="form-control ml-auto" type="search" placeholder="Digite aqui..." aria-label="Search">
                         <input type="submit" value="Pesquisar" class="btn btn-danger">
                     </form>
                 </div>
             </div>
 
             <div id="historico-content">
-            
-            <?php
-                $sqlEmprestimo = "  SELECT e.id, tipoE.tipo AS tipoEq, tipoE.imagem, e.data_emprestimo, e.data_devolucao, eq.identificador, r.nome, r.ra, tipoR.tipo AS tipoReq
-                                    FROM emprestimo AS e
+
+                <?php
+                $sqlEmprestimo = "  SELECT ee.id as idAssoc, e.id as idEmp, tipoE.tipo as tipoE, tipoE.imagem, e.data_emprestimo, e.data_devolucao, eq.identificador, r.nome, r.ra, tipoR.tipo
+                                    FROM equipamento_emprestimo AS ee
+                                    INNER JOIN tb_emprestimo as e
+                                    ON ee.emprestimo_id = e.id
                                     INNER JOIN tb_requerente AS r
                                     ON e.tb_requerente_id = r.id
                                     INNER JOIN tb_tipo_requerente AS tipoR
                                     ON r.tb_tipo_requerente_id = tipoR.id
                                     INNER JOIN tb_equipamento AS eq
-                                    ON e.tb_equipamento_identificador = eq.identificador
+                                    ON ee.tb_equipamento_identificador = eq.identificador
                                     INNER JOIN tb_tipoequipamento AS tipoE
                                     ON eq.tb_tipoEquipamento_id = tipoE.id
-                                    WHERE e.estado = 'Finalizado'
+                                    WHERE e.ativo = 0
                                     ORDER BY e.data_devolucao DESC
                 ";
                 $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
@@ -122,7 +123,7 @@
                                 <div class='col-md-10'>
                                     <div class='row'>
                                         <div class='col-md-6 historico-type'>
-                                            <h5>" . $emprestimo['tipoEq'] . "</h5>
+                                            <h5>" . $emprestimo['tipoE'] . "</h5>
                                         </div>
                                         <div class='col-md-6 historico-emprestimo-date'>
                                             <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
@@ -132,11 +133,11 @@
                                     <div class='row'>
                                         <div class='col-md-4'>Identificador: " . $emprestimo['identificador'] . "</div>
                                         <div class='col-md-4'>Nome do requerente: " . $emprestimo['nome'] . "</div>
-                                        <div class='col-md-4'>Data de devolução: ".$dataDevolucaoFormatada."</div>
+                                        <div class='col-md-4'>Data de devolução: " . $dataDevolucaoFormatada . "</div>
                                     </div>
             
                                     <div class='row'>
-                                        <div class='col-md-4'>Tipo do requerente: " . $emprestimo['tipoReq'] . "</div>
+                                        <div class='col-md-4'>Tipo do requerente: " . $emprestimo['tipo'] . "</div>
                                         <div class='col-md-4'>RA: " . $emprestimo['ra'] . "</div>
                                     </div>
                                 </div>
@@ -151,14 +152,12 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Sobre o Sistema</h5>
-                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"
-                        aria-label="Close">X</button>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -176,7 +175,10 @@
 
                     </div>
                 </div>
-                <!--Aqui termina o modal-->
+            </div>
+        </div>
+    </div>
+    <!--Aqui termina o modal-->
 
 
 </body>

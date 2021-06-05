@@ -25,8 +25,8 @@
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		<h5>Digite seu usuário</h5>
-           		   		<input type="text" class="input" name="login">
+           		   		<h5>Digite seu e-mail</h5>
+           		   		<input type="email" class="input" name="login">
            		   </div>
            		</div>
            		<div class="input-div pass">

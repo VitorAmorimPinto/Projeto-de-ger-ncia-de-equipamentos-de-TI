@@ -89,17 +89,19 @@ include("conexao.php");
             <div id="gerencia-emprestimos-content">
 
                 <?php
-                $sqlEmprestimo = "  SELECT e.id, tipoE.tipo, tipoE.imagem, e.data_emprestimo, eq.identificador, r.nome, r.ra, tipoR.tipo
-                                    FROM emprestimo AS e
+                $sqlEmprestimo = "  SELECT ee.id as idAssoc, e.id as idEmp, tipoE.tipo as tipoE, tipoE.imagem, e.data_emprestimo, eq.identificador, r.nome, r.ra, tipoR.tipo
+                                    FROM equipamento_emprestimo AS ee
+                                    INNER JOIN tb_emprestimo as e
+                                    ON ee.emprestimo_id = e.id
                                     INNER JOIN tb_requerente AS r
                                     ON e.tb_requerente_id = r.id
                                     INNER JOIN tb_tipo_requerente AS tipoR
                                     ON r.tb_tipo_requerente_id = tipoR.id
                                     INNER JOIN tb_equipamento AS eq
-                                    ON e.tb_equipamento_identificador = eq.identificador
+                                    ON ee.tb_equipamento_identificador = eq.identificador
                                     INNER JOIN tb_tipoequipamento AS tipoE
                                     ON eq.tb_tipoEquipamento_id = tipoE.id
-                                    WHERE e.estado = 'Em andamento'
+                                    WHERE ee.ativo = 1
                 ";
                 $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
 
@@ -121,7 +123,7 @@ include("conexao.php");
             
                                     <div class='row'>
                                         <div class='col-md-6 gerencia-emprestimos-type'>
-                                            <h5>" . $emprestimo['tipo'] . "</h5>
+                                            <h5>" . $emprestimo['tipoE'] . "</h5>
                                         </div>
                                         <div class='col-md-6 gerencia-emprestimos-emprestimo-date'>
                                             <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
@@ -142,19 +144,21 @@ include("conexao.php");
                                 <!--Botões-->
                                 <div class='col-md-2'>
                                     <div class='row' style='height: 50%;'>
-                                        <form method='POST' action='crudEmprestimo.php?act=finalizarEmprestimo' style='width:100%'>
-                                            <input type='text' name='idEmprestimo' value='".$emprestimo['id']."' style='display:none'>
+                                        <form method='POST' class='finalizarEmprestimo' style='width:100%'>
+                                            <input type='text' name='idAssociacao' value='" . $emprestimo['idAssoc'] . "' style='display:none'>
+                                            <input type='text' name='idEmprestimo' value='" . $emprestimo['idEmp'] . "' style='display:none'>
                                             <button type='submit' class='btn btn-labeled btn-success btn-emprestimo btn-finalizarEmprestimo'>
                                                 <span class='btn-label'><i class='fa fa-check'></i></span> Finalizar
                                             </button>
                                         </form>
                                     </div>
                                     <div class='row' style='height: 50%;'>
-                                        <form method='POST' action='crudEmprestimo.php?act=cancelarEmprestimo' style='width:100%'>
-                                            <input type='text' name='idEmprestimo' value='".$emprestimo['id']."' style='display:none'>
-                                            <button type='submit' class='btn btn-labeled btn-danger btn-emprestimo btn-cancelarEmprestimo'>
-                                                <span class='btn-label'><i class='fa fa-times'></i></span> Cancelar
-                                            </button>
+                                        <form method='POST' class='cancelarEmprestimo' style='width:100%'>
+                                            <input type='text' name='idAssociacao' value='" . $emprestimo['idAssoc'] . "' style='display:none'>
+                                            <input type='text' name='idEmprestimo' value='" . $emprestimo['idEmp'] . "' style='display:none'>
+                                                <button type='submit' class='btn btn-labeled btn-danger btn-emprestimo btn-cancelarEmprestimo'>
+                                                    <span class='btn-label'><i class='fa fa-times'></i></span> Cancelar
+                                                </button>
                                         </form>
                                     </div>
                                 </div>
@@ -201,70 +205,87 @@ include("conexao.php");
 
     <!--Aqui termina o modal sobre-->
 
-    <!-- Modal Cancelar-->
-    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Cancelar empréstmo</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Tem certeza que deseja cancelar esse empréstimo?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Sim</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Finalizar-->
-    <div class="modal fade" id="modalFinalizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Finalizar empréstimo</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Tem certeza que deseja marcar esse empréstimo como finalizado?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalFinalizarSucesso">Sim</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Finalizar Sucesso-->
-    <div class="modal fade" id="modalFinalizarSucesso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Finalizar empréstimo</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Empréstimo finalizado com sucesso!
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 </body>
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="./js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.min.js"></script>
+<!--Sweet Alert-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    $(".finalizarEmprestimo").submit(function(e) {
+        e.preventDefault();
+        var idEmprestimo = $(this).children("input[name='idEmprestimo']").val();
+        var idAssociacao = $(this).children("input[name='idAssociacao']").val();
+
+        var dados = {
+            idEmprestimo: idEmprestimo,
+            idAssociacao: idAssociacao,
+            act: "finalizarEmprestimo"
+        }
+
+        swal({
+                title: "Tem certeza que deseja finalizar este empréstimo?",
+                text: "Uma vez finalizado, ele não poderá mais ser reaberto.",
+                icon: "warning",
+                buttons: ["Voltar", "Confirmar"]
+            })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.post("crudEmprestimo.php", dados)
+                .done(async function(retorno) {
+
+                    let resultado = JSON.parse(retorno);
+
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon
+                    });
+
+                    location.reload();
+                });
+            }
+        });
+
+        
+    });
+
+    $(".cancelarEmprestimo").submit(function(e) {
+        e.preventDefault();
+        var idEmprestimo = $(this).children("input[name='idEmprestimo']").val();
+
+        var dados = {
+            idEmprestimo: idEmprestimo,
+            act: "cancelarEmprestimo"
+        }
+
+        swal({
+                title: "Tem certeza que deseja cancelar este empréstimo?",
+                text: "Uma vez cancelado, você não será capaz de recuperá-lo.",
+                icon: "warning",
+                buttons: ["Voltar", "Confirmar"],
+                dangerMode: true,
+            })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.post("crudEmprestimo.php", dados)
+                .done(async function(retorno) {
+
+                    let resultado = JSON.parse(retorno);
+
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon
+                    });
+
+                    location.reload();
+                });
+            }
+        });
+
+    });
+</script>
 
 </html>

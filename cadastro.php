@@ -1,8 +1,8 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["usuario"])){
-        header("Location:index.php");       
-        }
+session_start();
+if (!isset($_SESSION["usuario"])) {
+  header("Location:index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +72,7 @@ include("conexao.php");
       </div>
     </div>
 
-    <form method="POST" action="crudEquipamento.php?act=cadEquip">
+    <form method="POST" id="cadEquip">
       <div class="row mt-5">
         <div class="col-md-4">
           <div class="border mx-auto" id="card-cadastro">
@@ -80,33 +80,33 @@ include("conexao.php");
             <?php
             $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC LIMIT 1";
             $res = mysqli_query($con, $sql) or die(mysqli_error($con));
-              $row = $res->fetch_assoc();
-              if($row){
-                echo "<img src='img/".$row['imagem']."' class='card-img-top' id='img-card' alt='...'>";
-              }else{
-                echo "<img src='img/previa.png' class='card-img-top' id='img-card' alt='...'>";
-              }
+            $row = $res->fetch_assoc();
+            if ($row) {
+              echo "<img src='img/" . $row['imagem'] . "' class='card-img-top' id='img-card' alt='...'>";
+            } else {
+              echo "<img src='img/previa.png' class='card-img-top' id='img-card' alt='...'>";
+            }
             ?>
           </div>
           <br>
         </div>
         <div class="col-md-4">
-          
-            <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm btn-add" id="" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
-            <select class="form-control" id="selectTipoEquip" name="tipoCadEquip">
-              <?php
-              $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC";
-              $res = mysqli_query($con, $sql) or die(mysqli_error($con));
-              while ($linha = mysqli_fetch_array($res)) {
-                echo "<option value='" . $linha['tipo'] . "'>" . $linha['tipo'] . "</option>";
-              }
-              ?>
 
-            </select>
-            <label>Identificador do equipamento</label>
-            <input type="text" name="identificadorCadEquip" class="form-control" required> <br>
-            <input type="submit" value="Cadastro Equipamento" class="btn bg-menu text-white" id="btn-cad-equipamento">
-         
+          <label> Tipo de equipamento <button type="button" class="btn btn-outline-dark btn-sm btn-add" id="" data-bs-toggle="modal" data-bs-target="#modalcadastro">+</button></label>
+          <select class="form-control" id="selectTipoEquip" name="tipoCadEquip">
+            <?php
+            $sql = "SELECT * FROM tb_tipoequipamento ORDER BY tipo ASC";
+            $res = mysqli_query($con, $sql) or die(mysqli_error($con));
+            while ($linha = mysqli_fetch_array($res)) {
+              echo "<option value='" . $linha['tipo'] . "'>" . $linha['tipo'] . "</option>";
+            }
+            ?>
+
+          </select>
+          <label>Identificador do equipamento</label>
+          <input type="text" name="identificadorCadEquip" class="form-control" required> <br>
+          <input type="submit" value="Cadastro Equipamento" class="btn bg-menu text-white" id="btn-cad-equipamento">
+
         </div>
       </div>
     </form>
@@ -122,6 +122,7 @@ include("conexao.php");
     </div>
   </div>
 </footer>
+
 <!--modal-cadastro-->
 <div class="modal" tabindex="-1" role="dialog" id="modalcadastro">
   <div class="modal-dialog" role="document">
@@ -133,28 +134,100 @@ include("conexao.php");
         </button>
       </div>
 
-      <div class="modal-body">
+      <form method="POST" id="cadTipo" enctype="multipart/form-data">
 
-      <form method="POST" action="crudEquipamento.php?act=cadTipo" enctype="multipart/form-data">
+        <div class="modal-body">
           <label>Novo tipo</label>
           <input type="text" name="cadTipo" class="form-control" required>
           <label> Nova Imagem </label>
           <div class="form-group">
-            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="imgCadTipo" required>
+            <input type="file" class="form-control-file" id="imgCadTipo" name="imgCadTipo" required>
           </div>
         </div>
+
         <div class="modal-footer">
-          <input class="btn" id="btn-cad" type="submit" value="Salvar">
+          <input class="btn" id="btn-cad" type="submit" value="Cadastrar">
         </div>
+
       </form>
 
     </div>
   </div>
 </div>
+
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/script.js" type="text/javascript"></script>
+<!--Sweet Alert-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+  $("#cadTipo").submit(function(e) {
+    e.preventDefault();
+    
+    var cadTipo = $("input[name='cadTipo']").val();
+    //Seleciona o arquivo
+    var imgCadTipo = document.forms['cadTipo']['imgCadTipo'].files[0];
+
+    //Dados para serem enviados para o back
+    var fd = new FormData()
+    fd.append('imgCadTipo', imgCadTipo)
+    fd.append('cadTipo', cadTipo)
+    fd.append('act', 'cadTipo')
+
+    $.ajax({
+        url : 'crudEquipamento.php',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: async function(retorno) {
+          console.log(retorno)
+          let resultado = JSON.parse(retorno);
+
+          await swal({
+            title: resultado.title,
+            icon: resultado.icon
+          });
+
+          location.reload();
+        }
+    })
+  });
+
+
+  $("#cadEquip").submit(function(e) {
+        e.preventDefault();
+        $("#modalRemoverEmailFuncionario").modal('hide');
+        var identificadorCadEquip = $("input[name='identificadorCadEquip']").val();
+        var tipoCadEquip = $("select[name='tipoCadEquip']").val();
+
+        var dados = {
+            identificadorCadEquip: identificadorCadEquip,
+            tipoCadEquip: tipoCadEquip,
+            act: "cadEquip"
+        }
+
+        console.log(dados)
+
+        $.post('crudEquipamento.php', dados)
+            .done(
+                async function(retorno) {
+                    let resultado = JSON.parse(retorno);
+                    await swal({
+                        title: resultado.title,
+                        icon: resultado.icon,
+                    });
+
+                    location.reload()
+                }
+            )
+    });
+
+
+
+</script>
 
 </html>
