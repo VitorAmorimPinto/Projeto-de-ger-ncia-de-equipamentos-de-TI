@@ -38,6 +38,8 @@ include("conexao.php");
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
               <li><a class="dropdown-item disabled" href="">Cadastrar Equipamentos</a></li>
+              <div class="dropdown-divider"></div>
+              <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">

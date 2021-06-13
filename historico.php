@@ -34,6 +34,8 @@ include("conexao.php");
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
                             <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -116,6 +118,7 @@ include("conexao.php");
 
                     echo "
                             <div class='row border-bottom historico-items'>
+                            <input type='text' name='idEmprestimo' value='" . $emprestimo['idEmp'] . "' style='display:none'>
                                 <div class='col-md-2 historico-img'>
                                     <img src='./img/" . $emprestimo['imagem'] . "' alt=''>
                                 </div>
@@ -180,10 +183,42 @@ include("conexao.php");
     </div>
     <!--Aqui termina o modal-->
 
+    <!-- Modal -->
+    <div class="modal fade" id="modalInfoEquip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sobre o Sistema</h5>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Aqui termina o modal-->
+
 
 </body>
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="./js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script>
+   $('.historico-items').on('click', function (event) {
+    var idEmp = $(this).children('input[name="idEmprestimo"]').val();
+
+    var modal = $('#modalInfoEquip')
+    console.log(idEmp)
+    modal.find('.row').text(idEmp)
+    modal.modal('show')
+})
+</script>
 
 </html>

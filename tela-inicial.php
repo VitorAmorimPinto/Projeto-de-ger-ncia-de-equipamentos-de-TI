@@ -29,6 +29,8 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item disabled" href="">Equipamentos disponíveis</a></li>
                       <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
+                      <div class="dropdown-divider"></div>
+                      <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

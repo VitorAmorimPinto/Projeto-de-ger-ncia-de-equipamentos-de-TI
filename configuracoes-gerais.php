@@ -39,6 +39,8 @@ include("conexao.php");
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
                             <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -284,6 +286,36 @@ include("conexao.php");
         </div>
     </div>
     <!--Aqui termina o modal-->
+
+    <!-- Modal -->
+ <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Sobre o Sistema</h5>
+       <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+        </button>
+     </div>
+     <div class="modal-body">
+       <div class="container-fluid">
+         <div class="row">
+           <div class="col-md-6">Esse é um sistema de controle e gerenciamento de estoque de equipamentos
+             tecnológicos disponibilizados para empréstimo dentro de uma instituição de ensino superior.</div>
+           <div class="col-md-6 ms-auto">Esse sistema surgiu por conta de uma demanda real que nossa instituição de
+             ensino possuía, em um cenário onde não havia o gerenciamento efetivo dos equipamentos emprestados a
+             alunos e funcionários. </div>
+         </div>
+
+       </div>
+     </div>
+     <div class="modal-footer">
+       <p class="text-muted">Projeto desenvolvido pelos alunos do "Grupo do Grupo", do 3º Período do curso de
+         Sistemas de Informação da Unisales.</p>
+     </div>
+     <!--Aqui termina o modal-->
+
 
 </body>
 <script src="js/bootstrap.bundle.min.js"></script>

@@ -37,7 +37,7 @@ include("conexao.php");
                             <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
                             <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
                             <div class="dropdown-divider"></div>
-                            <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
+                            <li><a class="dropdown-item" href="">Gerenciar reservas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -45,7 +45,7 @@ include("conexao.php");
                             Empréstimos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item disabled" href="">Gerenciar empréstimos</a></li>
+                            <li><a class="dropdown-item disabled" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
                             <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
                         </ul>
                     </li>
@@ -70,7 +70,7 @@ include("conexao.php");
             <div class="row border-bottom mt-5" id="gerencia-emprestimos-top-content">
 
                 <div class="col-lg-6" id="gerencia-emprestimos-title">
-                    <h1>Gerência de empréstimos</h1>
+                    <h1>Gerência de reservas</h1>
                 </div>
 
                 <div class="col-lg-6" id="gerencia-emprestimos-search-form">
@@ -91,33 +91,33 @@ include("conexao.php");
             <div id="gerencia-emprestimos-content">
 
                 <?php
-                $sqlEmprestimo = "  SELECT ee.id as idAssoc, e.id as idEmp, tipoE.tipo as tipoE, tipoE.imagem, e.data_emprestimo, eq.identificador, r.nome, r.ra, tipoR.tipo
-                                    FROM equipamento_emprestimo AS ee
-                                    INNER JOIN tb_emprestimo as e
-                                    ON ee.emprestimo_id = e.id
-                                    INNER JOIN tb_requerente AS r
-                                    ON e.tb_requerente_id = r.id
+                $sqlReserva = "  SELECT er.id as idAssoc, r.id as idRes, tipoE.tipo as tipoE, tipoE.imagem, r.data_reserva, eq.identificador, req.nome, req.ra, tipoR.tipo
+                                    FROM equipamento_reserva AS er
+                                    INNER JOIN reserva as r
+                                    ON er.reserva_id = r.id
+                                    INNER JOIN tb_requerente AS req
+                                    ON r.tb_requerente_id = req.id
                                     INNER JOIN tb_tipo_requerente AS tipoR
-                                    ON r.tb_tipo_requerente_id = tipoR.id
+                                    ON req.tb_tipo_requerente_id = tipoR.id
                                     INNER JOIN tb_equipamento AS eq
-                                    ON ee.tb_equipamento_identificador = eq.identificador
+                                    ON er.tb_equipamento_identificador = eq.identificador
                                     INNER JOIN tb_tipoequipamento AS tipoE
                                     ON eq.tb_tipoEquipamento_id = tipoE.id
-                                    WHERE ee.ativo = 1
+                                    WHERE er.ativo = 1
                 ";
-                $resEmprestimo = mysqli_query($con, $sqlEmprestimo);
+                $resReserva = mysqli_query($con, $sqlReserva);
 
-                while ($emprestimo = mysqli_fetch_array($resEmprestimo)) {
+                while ($reserva = mysqli_fetch_array($resReserva)) {
                     //Formata a data
-                    $data = date_create($emprestimo['data_emprestimo']);
-                    $dataEmprestimoFormatada = date_format($data, 'd/m/Y H:i');
+                    $data = date_create($reserva['data_reserva']);
+                    $dataReservaFormatada = date_format($data, 'd/m/Y H:i');
 
                     echo "
                             
                             <div class='row border-bottom gerencia-emprestimos-items'>
                                 
                                 <div class='col-md-2 gerencia-emprestimos-img'>
-                                    <img src='./img/" . $emprestimo['imagem'] . "' alt=''>
+                                    <img src='./img/" . $reserva['imagem'] . "' alt=''>
                                 </div>
             
                                 
@@ -125,39 +125,39 @@ include("conexao.php");
             
                                     <div class='row'>
                                         <div class='col-md-6 gerencia-emprestimos-type'>
-                                            <h5>" . $emprestimo['tipoE'] . "</h5>
+                                            <h5>" . $reserva['tipoE'] . "</h5>
                                         </div>
                                         <div class='col-md-6 gerencia-emprestimos-emprestimo-date'>
-                                            <h5>Data de empréstimo: " . $dataEmprestimoFormatada . "</h5>
+                                            <h5>Data de reserva: " . $dataReservaFormatada . "</h5>
                                         </div>
                                     </div>
             
                                     <div class='row'>
-                                        <div class='col-md-4'>Identificador: " . $emprestimo['identificador'] . "</div>
-                                        <div class='col-md-4'>Nome do requerente: " . $emprestimo['nome'] . "</div>
+                                        <div class='col-md-4'>Identificador: " . $reserva['identificador'] . "</div>
+                                        <div class='col-md-4'>Nome do requerente: " . $reserva['nome'] . "</div>
                                     </div>
             
                                     <div class='row'>
-                                        <div class='col-md-4'>Tipo do requerente: " . $emprestimo['tipo'] . "</div>
-                                        <div class='col-md-4'>RA: " . $emprestimo['ra'] . "</div>
+                                        <div class='col-md-4'>Tipo do requerente: " . $reserva['tipo'] . "</div>
+                                        <div class='col-md-4'>RA: " . $reserva['ra'] . "</div>
                                     </div>
                                 </div>
 
                                 <!--Botões-->
                                 <div class='col-md-2'>
                                     <div class='row' style='height: 50%;'>
-                                        <form method='POST' class='finalizarEmprestimo' style='width:100%'>
-                                            <input type='text' name='idAssociacao' value='" . $emprestimo['idAssoc'] . "' style='display:none'>
-                                            <input type='text' name='idEmprestimo' value='" . $emprestimo['idEmp'] . "' style='display:none'>
+                                        <form method='POST' class='emprestar' style='width:100%'>
+                                            <input type='text' name='idAssociacao' value='" . $reserva['idAssoc'] . "' style='display:none'>
+                                            <input type='text' name='idReserva' value='" . $reserva['idRes'] . "' style='display:none'>
                                             <button type='submit' class='btn btn-labeled btn-success btn-emprestimo btn-finalizarEmprestimo'>
-                                                <span class='btn-label'><i class='fa fa-check'></i></span> Finalizar
+                                                <span class='btn-label'><i class='fa fa-check'></i></span> Emprestar
                                             </button>
                                         </form>
                                     </div>
                                     <div class='row' style='height: 50%;'>
-                                        <form method='POST' class='cancelarEmprestimo' style='width:100%'>
-                                            <input type='text' name='idAssociacao' value='" . $emprestimo['idAssoc'] . "' style='display:none'>
-                                            <input type='text' name='idEmprestimo' value='" . $emprestimo['idEmp'] . "' style='display:none'>
+                                        <form method='POST' class='cancelarReserva' style='width:100%'>
+                                            <input type='text' name='idAssociacao' value='" . $reserva['idAssoc'] . "' style='display:none'>
+                                            <input type='text' name='idReserva' value='" . $reserva['idRes'] . "' style='display:none'>
                                                 <button type='submit' class='btn btn-labeled btn-danger btn-emprestimo btn-cancelarEmprestimo'>
                                                     <span class='btn-label'><i class='fa fa-times'></i></span> Cancelar
                                                 </button>
@@ -217,62 +217,51 @@ include("conexao.php");
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
-    $(".finalizarEmprestimo").submit(function(e) {
+    $(".emprestar").submit(function(e) {
         e.preventDefault();
-        var idEmprestimo = $(this).children("input[name='idEmprestimo']").val();
+        var idReserva = $(this).children("input[name='idReserva']").val();
         var idAssociacao = $(this).children("input[name='idAssociacao']").val();
 
         var dados = {
-            idEmprestimo: idEmprestimo,
+            idReserva: idReserva,
             idAssociacao: idAssociacao,
-            act: "finalizarEmprestimo"
+            act: "emprestar"
         }
 
-        swal({
-                title: "Tem certeza que deseja finalizar este empréstimo?",
-                text: "Uma vez finalizado, ele não poderá mais ser reaberto.",
-                icon: "warning",
-                buttons: ["Voltar", "Confirmar"]
-            })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.post("crudEmprestimo.php", dados)
-                .done(async function(retorno) {
+        $.post("crudReserva.php", dados)
+        .done(async function(retorno) {
+            console.log(retorno)
 
-                    let resultado = JSON.parse(retorno);
+            let resultado = JSON.parse(retorno);
 
-                    await swal({
-                        title: resultado.title,
-                        icon: resultado.icon
-                    });
+            await swal({
+                title: resultado.title,
+                icon: resultado.icon
+            });
 
-                    location.reload();
-                });
-            }
+            location.reload();
         });
-
-        
     });
 
-    $(".cancelarEmprestimo").submit(function(e) {
+    $(".cancelarReserva").submit(function(e) {
         e.preventDefault();
-        var idEmprestimo = $(this).children("input[name='idEmprestimo']").val();
+        var idReserva = $(this).children("input[name='idReserva']").val();
 
         var dados = {
-            idEmprestimo: idEmprestimo,
-            act: "cancelarEmprestimo"
+            idReserva: idReserva,
+            act: "cancelarReserva"
         }
 
         swal({
-                title: "Tem certeza que deseja cancelar este empréstimo?",
-                text: "Uma vez cancelado, você não será capaz de recuperá-lo.",
+                title: "Tem certeza que deseja cancelar esta reserva?",
+                text: "Uma vez cancelada, você não será capaz de recuperá-la.",
                 icon: "warning",
                 buttons: ["Voltar", "Confirmar"],
                 dangerMode: true,
             })
         .then((willDelete) => {
             if (willDelete) {
-                $.post("crudEmprestimo.php", dados)
+                $.post("crudReserva.php", dados)
                 .done(async function(retorno) {
 
                     let resultado = JSON.parse(retorno);
