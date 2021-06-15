@@ -1,5 +1,9 @@
 <?php
     include("conexao.php");
+    session_start();
+if (!isset($_SESSION["usuario"])) {
+    header("Location:index.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -10,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" type="text/css" href="fontawesome/css/all.css">
     <title>Equipamentos - TI</title>
 </head>
@@ -29,8 +34,6 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item disabled" href="">Equipamentos disponíveis</a></li>
                       <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
-                      <div class="dropdown-divider"></div>
-                      <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -40,6 +43,8 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
                       <li><a class="dropdown-item" href="historico.php">Histórico de Empréstimos</a></li>
+                      <div class="dropdown-divider"></div>
+                      <li><a class="dropdown-item" href="gerencia-reservas.php">Gerenciar reservas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -52,19 +57,31 @@
                         Sobre
                       </a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link " href="#"  data-bs-toggle="modal" data-bs-target="#modalCadastraRequerente">
+                        Teste
+                    </a>
+                </li>
             </ul>
             </div>
         </div>
     </nav>
+    
+    <div class="resultado">
+        
+    </div>
     <div class="container">
         <div class="row border-bottom mt-5 p-4">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h2>Equipamentos disponíveis</h2>
             </div>
             <div class="col-md-4">
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                 </form>
+            </div>
+            <div class="col-md-1">
+                <a href="" id="carrinho" data-bs-toggle="modal" data-bs-target="#modalRealizarEmprestimo" class="btn bg-menu rounded-circle text-light"><i class="fas fa-shopping-cart"></i></a>
             </div>
         </div>
         <!-- <div class="row mt-4"> -->
@@ -84,11 +101,11 @@
                         $res2= mysqli_query($con,$sql2);
                         $disponiveis = mysqli_num_rows($res2);
 
-                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Emprestado'";
+                        $sql2 = "SELECT * FROM `tb_equipamento` te join equipamento_emprestimo ee on ee.tb_equipamento_identificador = te.identificador WHERE te.tb_tipoEquipamento_id = '$id' and ee.ativo = 1";
                         $res2= mysqli_query($con,$sql2);
                         $emprestados = mysqli_num_rows($res2);
                         
-                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Reservado'";
+                        $sql2 = "SELECT * FROM `tb_equipamento` te join equipamento_reserva ee on ee.tb_equipamento_identificador = te.identificador WHERE te.tb_tipoEquipamento_id = '$id' and ee.ativo = 1";
                         $res2= mysqli_query($con,$sql2);
                         $reservados = mysqli_num_rows($res2);
                         if ($count == 3) 
@@ -97,8 +114,9 @@
                             $count = 0;
                         }   
                 
-                        echo   "<div class='col-md-4'>
-                                    <a href='#' class='link-produtos' data-bs-toggle='modal' data-bs-target='#modalRealizarEmprestimo'>
+                        echo    "<div class='col-md-4'>
+                                    <a href='#' id='' class='link-produtos teste' data-tipo='".$linha['tipo']."' data-id='".$linha['id']."' data-bs-toggle='modal' data-bs-target='#modalEquipamentos'>
+                                        
                                         <div class='effect-card back-card mx-auto card' style='width: 15rem;'>
                                             <div class='text-center top-card border-bottom'><h5>".$linha['tipo']."</h5></div>
                                             <img src='img/".$linha['imagem']."' height='150px' class='card-img-top border-bottom' alt='...'>
@@ -140,11 +158,12 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Realizar empréstimo</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title">Carrinho</h5>
+                <button type="button" id="close" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
+            <div class="Resposta"></div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
@@ -162,7 +181,7 @@
                             <form method="" action="">
                                 <label>Identificador</label><br>
                                 <div class="input-group ">
-                                    <input type="text" name="pesquisar" class="form-control">
+                                    <input type="text" name="pesquisar" class="form-control" required>
                                     <div class="input-group-append">
                                         <button type="button" id="buscar" class="btn bg-menu text-light"><i class="fas fa-search"></i></button>
                                     </div>  
@@ -173,45 +192,135 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Nome do Requerente</label>
-                            <input type="text" name="nomeRequerente" id="nomeRequerente" class="form-control">
+                            <input type="text" name="nomeRequerente" id="nomeRequerente" class="form-control" disabled >
                         </div>
                         <div class="col-md-6">
                             <label>E-mail do requerente</label>
-                            <input type="text" name="emailRequerente" id="emailRequerente" class="form-control">
+                            <input type="text" name="emailRequerente" id="emailRequerente" class="form-control" disabled>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Tipo de Requerimento</label>
+                            <select class="form-control" name="tipoRequerimento" aria-label="Default select example">
+                                <option value="Emprestimo">Empréstimo</option>
+                                <option value="Reserva">Reserva</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5 class="p-3">Equipamentos do Carrinho</h5>
+                    </div>
+                    <div >
+                        <table id="Equipamentos" class="table table-hover">
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Id</th>
+                                <th></th>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6 mx-auto text-center">
+                            <button class="btn bg-menu text-light mx-auto" id="CadEmprestimo" type="button">Registrar Empréstimo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalEquipamentos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Equipamento</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="Resposta"></div>
+            <div class="modal-body">
                     <div class="row mt-2">
-                        <h5>Dados do Equipamento</h5>
+                        <h5 class="p-3">Dados do Equipamento</h5>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Selecione o Patrimônio</label>
-                                <select class="form-control" aria-label="Default select example">
-                                    <option value="1">...</option>
-                                    <option value="2">...</option>
+                                <select class="form-control patrimonio" name="patrimonio" id="" aria-label="Default select example">
+                                    
                                 </select>
                         </div>
                         <div class="col-md-6">
-                            <label>tipo</label>
-                            <input type="text" name="tipo" class="form-control" readonly>
+                            <label>Tipo</label>
+                            <input type="text" name="tipoEquip" class="form-control" readonly>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <h5>Dados do Funcionário</h5>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Selecione o e-mail</label>
-                                <select class="form-control" aria-label="Default select example">
-                                    <option value="1">...</option>
-                                    <option value="2">...</option>
-                                </select>
-                        </div>
-                        
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-6 mx-auto text-center">
-                            <button class="btn bg-menu text-light mx-auto" type="button">Registrar Empréstimo</button>
+                            <button class="btn bg-menu text-light mx-auto" id="addCarrinho" type="button">adicionar ao <i class="fas fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCadastraRequerente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastrar Requerente</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="Resposta"></div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h5>Dados</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nome do Requerente</label>
+                            <input type="text" name="CadnomeRequerente" id="CadNomeRequerente" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>E-mail do requerente</label>
+                            <input type="text" name="CadEmailRequerente" id="CadEmailRequerente" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label>CPF</label>
+                            <input type="text" name="CadCpf" id="CadCpf" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>RA</label>
+                            <input type="text" name="CadRa" id="CadRa" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label>Tipo de Requerente</label>
+                            <select class="form-control" name="TipoRequerente" aria-label="Default select example">
+                                <option value="1">Aluno</option>
+                                <option value="2">Professor</option>
+                                <option value="3">Setor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Telefone</label>
+                            <input type="tel" name="Telefone" id="Telefone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6 mx-auto text-center">
+                            <button class="btn bg-menu text-light mx-auto" id="CadRequerente" type="button">Cadastrar</button>
                         </div>
                     </div>
                 </div>
@@ -220,7 +329,7 @@
     </div>
 </div>
  <!-- Modal -->
- <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
  aria-hidden="true">
  <div class="modal-dialog" role="document">
    <div class="modal-content">
@@ -254,5 +363,15 @@
 <!-- <script src="js/bootstrap.js"></script> -->
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="js/script.js"></script>
+<script src="js/jquery.maskedinput-1.1.4.pack.js"></script>
+<script>
+        $(document).ready(function(){
+		$("#Telefone").mask("(99) 9999-99999");
+	});
+    // $(document).ready(function(){
+    //     $("#CadCpf").mask("999.999.999-99");
+    // });
+    </script>
 </html>

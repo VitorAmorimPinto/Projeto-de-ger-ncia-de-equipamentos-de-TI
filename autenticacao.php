@@ -20,6 +20,7 @@ if ($cont != 0) {
     // Pega os registros que a consulta trouxe
     while($linha = mysqli_fetch_array($exe)){
         $_SESSION["usuario"] = $linha["email"];
+        $_SESSION["IdUser"] = $linha["id"];
     }
     // comando que redireciona para uma tela
     header("Location:tela-inicial.php");
