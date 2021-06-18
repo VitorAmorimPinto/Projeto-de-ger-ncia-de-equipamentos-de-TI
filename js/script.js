@@ -97,7 +97,6 @@ $(function(){
 				}
 
 				$.post('buscaEmprestimo.php', dados, function(retorna){
-
 				});
 				list.forEach(equipamento);
 				exibirMsgEmprestimo();	
@@ -107,7 +106,8 @@ $(function(){
 					idEquipamento : item.idEquipamento,
 					act : "registrarProdutoEmprestimo"
 					}
-					$.post('buscaEmprestimo.php', equipamento, function(teste){});
+					$.post('buscaEmprestimo.php', equipamento, function(teste){
+					});
 				}
 				
 			  break;
@@ -118,10 +118,10 @@ $(function(){
 				}
 
 				$.post('buscaEmprestimo.php', teste, function(retorna){
+					console.log(retorna);
 				});
 				list.forEach(equip);
 				exibirMsgReserva();	
-
 				function equip(item) {
 
 					var equipamento ={
@@ -129,6 +129,7 @@ $(function(){
 					act : "registrarProdutoReserva"
 					}
 					$.post('buscaEmprestimo.php', equipamento, function(retorna){
+						console.log(retorna);
 					});
 				}
 			  break;

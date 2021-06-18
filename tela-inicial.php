@@ -57,7 +57,11 @@ if (!isset($_SESSION["usuario"])) {
                         Sobre
                       </a>
                 </li>
-               
+                <li class="nav-item dropdown">
+                    <a class="nav-link " href="sair.php" >
+                        Sair
+                    </a>
+                </li>
             </ul>
             </div>
         </div>
@@ -93,12 +97,12 @@ if (!isset($_SESSION["usuario"])) {
                         $res2= mysqli_query($con,$sql2);
                         $total = mysqli_num_rows($res2);
                          
-                        $sql2 = "SELECT * FROM tb_equipamento WHERE identificador NOT IN (
+                        $sql2 = "SELECT * FROM tb_equipamento WHERE tb_tipoEquipamento_id = '$id' and identificador NOT IN (
                             SELECT identificador FROM tb_equipamento eq
                             JOIN equipamento_reserva er
                             WHERE eq.identificador = er.tb_equipamento_identificador
                             AND er.ativo = 1)
-                            AND identificador NOT IN (
+                            AND tb_tipoEquipamento_id = '$id' and identificador NOT IN (
                             SELECT identificador FROM tb_equipamento eq
                             JOIN equipamento_emprestimo ee
                             WHERE eq.identificador = ee.tb_equipamento_identificador

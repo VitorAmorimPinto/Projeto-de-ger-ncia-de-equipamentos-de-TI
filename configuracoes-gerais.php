@@ -62,6 +62,11 @@ include("conexao.php");
                             Sobre
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="sair.php" data-bs-toggle="modal" data-bs-target="#modalSobre">
+                            Sair
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

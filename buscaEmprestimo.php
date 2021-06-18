@@ -7,16 +7,17 @@ $idProduto = $_POST['idProduto'];
 
 
 
-$sql = "SELECT * FROM tb_equipamento WHERE identificador NOT IN (
+$sql = "SELECT * FROM tb_equipamento WHERE tb_tipoEquipamento_id = '$idProduto' and identificador NOT IN (
     SELECT identificador FROM tb_equipamento eq
     JOIN equipamento_reserva er
     WHERE eq.identificador = er.tb_equipamento_identificador
     AND er.ativo = 1)
-    AND identificador NOT IN (
+    AND tb_tipoEquipamento_id = '$idProduto' and identificador NOT IN (
     SELECT identificador FROM tb_equipamento eq
     JOIN equipamento_emprestimo ee
     WHERE eq.identificador = ee.tb_equipamento_identificador
-    AND ee.ativo = 1)";
+    AND ee.ativo = 1
+    )";
 $exe = mysqli_query($con, $sql);
 
 while($linha = mysqli_fetch_array($exe)){
@@ -130,22 +131,18 @@ else if ($act == "registrarProdutoEmprestimo") {
     // }
 }
 
-else if ($act == "registrarProdutoReserva") {
+else if 
+    ($act == "registrarProdutoReserva") {
 
     @$idReserva = $_SESSION["idReserva"];
-    $idEquipamento = $_POST["idEquipamento"];
-    echo $_SESSION["idEmprestimo"];
+    @$idEquipamento = $_POST["idEquipamento"];
     
-    $insert = "INSERT INTO `equipamento_reserva`(`id`, `reserva_id`, `tb_equipamento_identificador`, `ativo`) VALUES (null,$idReserva,$idEquipamento,1)";
+    
+    $insert = "INSERT INTO `equipamento_reserva`(`id`, `reserva_id`, `tb_equipamento_identificador`, `ativo`) VALUES (null,'$idReserva','$idEquipamento',1)";
     $res = mysqli_query($con, $insert) or die(mysqli_error($con));
     echo $res;
 
-    // if ($res == 1) {
-        
-    //     $resposta = array("title" => "Cadastrado com sucesso", "icon" => "success");
-    //     echo json_encode($resposta);
-    
-    // }
+   
 }
 
 

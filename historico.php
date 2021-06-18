@@ -34,8 +34,6 @@ include("conexao.php");
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="tela-inicial.php">Equipamentos disponíveis</a></li>
                             <li><a class="dropdown-item" href="cadastro.php">Cadastrar Equipamentos</a></li>
-                            <div class="dropdown-divider"></div>
-                            <li><a class="dropdown-item" href="gerencia-reservas">Gerenciar reservas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -57,6 +55,11 @@ include("conexao.php");
                     <li class="nav-item dropdown">
                         <a class="nav-link " href="#" data-bs-toggle="modal" data-bs-target="#modalSobre">
                             Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="sair.php" data-bs-toggle="modal" data-bs-target="#modalSobre">
+                            Sair
                         </a>
                     </li>
                 </ul>
@@ -213,14 +216,7 @@ include("conexao.php");
 <script src="./js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.min.js"></script>
 <script>
-   $('.historico-items').on('click', function (event) {
-    var idEmp = $(this).children('input[name="idEmprestimo"]').val();
-
-    var modal = $('#modalInfoEquip')
-    console.log(idEmp)
-    modal.find('.row').text(idEmp)
-    modal.modal('show')
-})
+   
 </script>
 
 </html>
