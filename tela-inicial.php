@@ -57,11 +57,7 @@ if (!isset($_SESSION["usuario"])) {
                         Sobre
                       </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="#"  data-bs-toggle="modal" data-bs-target="#modalCadastraRequerente">
-                        Teste
-                    </a>
-                </li>
+               
             </ul>
             </div>
         </div>
@@ -97,7 +93,17 @@ if (!isset($_SESSION["usuario"])) {
                         $res2= mysqli_query($con,$sql2);
                         $total = mysqli_num_rows($res2);
                          
-                        $sql2 = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$id' and estado = 'Disponivel'";
+                        $sql2 = "SELECT * FROM tb_equipamento WHERE identificador NOT IN (
+                            SELECT identificador FROM tb_equipamento eq
+                            JOIN equipamento_reserva er
+                            WHERE eq.identificador = er.tb_equipamento_identificador
+                            AND er.ativo = 1)
+                            AND identificador NOT IN (
+                            SELECT identificador FROM tb_equipamento eq
+                            JOIN equipamento_emprestimo ee
+                            WHERE eq.identificador = ee.tb_equipamento_identificador
+                            AND ee.ativo = 1
+                            )";
                         $res2= mysqli_query($con,$sql2);
                         $disponiveis = mysqli_num_rows($res2);
 
@@ -179,7 +185,7 @@ if (!isset($_SESSION["usuario"])) {
                         </div>
                         <div class="col-md-6">
                             <form method="" action="">
-                                <label>Identificador</label><br>
+                                <label>Identificador <a class="text-dark fas fa-plus-circle" href="#" data-bs-toggle="modal" data-bs-target="#modalCadastraRequerente"></a></label><br>
                                 <div class="input-group ">
                                     <input type="text" name="pesquisar" class="form-control" required>
                                     <div class="input-group-append">
@@ -260,7 +266,7 @@ if (!isset($_SESSION["usuario"])) {
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-6 mx-auto text-center">
-                            <button class="btn bg-menu text-light mx-auto" id="addCarrinho" type="button">adicionar ao <i class="fas fa-cart-plus"></i></button>
+                            <button class="btn bg-menu text-light mx-auto" id="addCarrinho" type="button">Adicionar ao <i class="fas fa-cart-plus"></i></button>
                         </div>
                     </div>
                 </div>

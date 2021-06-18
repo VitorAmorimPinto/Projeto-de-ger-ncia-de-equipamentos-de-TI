@@ -7,10 +7,19 @@ $idProduto = $_POST['idProduto'];
 
 
 
-$sql = "SELECT * FROM `tb_equipamento` WHERE tb_tipoEquipamento_id = '$idProduto' and estado = 'Disponivel'";
+$sql = "SELECT * FROM tb_equipamento WHERE identificador NOT IN (
+    SELECT identificador FROM tb_equipamento eq
+    JOIN equipamento_reserva er
+    WHERE eq.identificador = er.tb_equipamento_identificador
+    AND er.ativo = 1)
+    AND identificador NOT IN (
+    SELECT identificador FROM tb_equipamento eq
+    JOIN equipamento_emprestimo ee
+    WHERE eq.identificador = ee.tb_equipamento_identificador
+    AND ee.ativo = 1)";
 $exe = mysqli_query($con, $sql);
-    //A SQl tem o intuito de buscar o email vinculado a esse login
-    while($linha = mysqli_fetch_array($exe)){
+
+while($linha = mysqli_fetch_array($exe)){
         echo "<option value='".$linha['identificador']."'>".$linha['identificador']."</option>";
     }
         

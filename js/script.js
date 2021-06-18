@@ -88,44 +88,40 @@ $(function(){
 	$("#CadEmprestimo").click(function(){
 	  //Recuperar o valor do campo
 	  var tipoRequerimento = $('select[name=tipoRequerimento]').val();
-
+	  var teste;	
 	  switch (tipoRequerimento) {
 		  	case 'Emprestimo':
-				alert("Caiu no Emprestimo");
 			 	 var dados = {
 					IdRequerente : IdRequerente,
 					act : "CadEmprestimo"
 				}
 
 				$.post('buscaEmprestimo.php', dados, function(retorna){
-					alert("Emprestimo cadastrado");
-					console.log(retorna);
+
 				});
 				list.forEach(equipamento);
+				exibirMsgEmprestimo();	
 				function equipamento(item) {
 
 					var equipamento ={
 					idEquipamento : item.idEquipamento,
 					act : "registrarProdutoEmprestimo"
 					}
-					$.post('buscaEmprestimo.php', equipamento, function(retorna){
-						alert("produto");
-						console.log(retorna);
-					});
+					$.post('buscaEmprestimo.php', equipamento, function(teste){});
 				}
+				
 			  break;
 		  	case 'Reserva':
-				  alert("Caiu na Reserva");
 				var teste = {
 					IdR : IdRequerente,
 					act : "CadReserva"
 				}
 
 				$.post('buscaEmprestimo.php', teste, function(retorna){
-					alert("Reserva cadastrado");
-					console.log(retorna);
 				});
 				list.forEach(equip);
+				exibirMsgReserva();	
+
 				function equip(item) {
 
 					var equipamento ={
@@ -133,8 +129,6 @@ $(function(){
 					act : "registrarProdutoReserva"
 					}
 					$.post('buscaEmprestimo.php', equipamento, function(retorna){
-						alert("produto");
-						console.log(retorna);
 					});
 				}
 			  break;
@@ -147,7 +141,20 @@ $(function(){
 	});
   
   });
-
+async function exibirMsgReserva() {
+	await swal({
+			title: "Reserva Cadastrado com Sucesso",
+			icon: "success",
+		})
+		location.reload()
+}
+async function exibirMsgEmprestimo() {
+	await swal({
+			title: "Empréstimo Cadastrado com Sucesso",
+			icon: "success",
+		})
+		location.reload()
+}
   $(function(){
   
 	$("#CadRequerente").click(function(){
@@ -203,9 +210,9 @@ $(function(){
 
           list.push(dados);
           swal({
-						title: 'Item adicionado ao Carrinho',
-						icon: 'success',
-					});
+				title: 'Item adicionado ao Carrinho',
+				icon: 'success',
+			});
           
           
           

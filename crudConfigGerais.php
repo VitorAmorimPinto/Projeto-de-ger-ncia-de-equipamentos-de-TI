@@ -45,7 +45,7 @@ switch($act){
     case "cadFuncionario":
         $emailFuncionario = trim($emailFuncionario);
         $senhaFuncionario = trim($senhaFuncionario);
-
+        $senhaFuncionario = md5($senhaFuncionario);
         $sql = "SELECT * FROM tb_usuario WHERE email = '" . $emailFuncionario . "'";
         $res = mysqli_query($con, $sql) or die(mysqli_error($con));
 

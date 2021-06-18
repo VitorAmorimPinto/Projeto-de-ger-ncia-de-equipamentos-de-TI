@@ -45,6 +45,8 @@ include("conexao.php");
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="gerencia-emprestimos.php">Gerenciar empréstimos</a></li>
                             <li><a class="dropdown-item disabled" href="">Histórico de Empréstimos</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="gerencia-reservas.php">Gerenciar reservas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

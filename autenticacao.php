@@ -4,7 +4,7 @@ include("conexao.php");
 if($_GET["acao"] == "logar"){
 // Pegando variáveis lá do login
 $login = $_POST['login'];
-$senha = $_POST['senha'];
+$senha = md5($_POST['senha']);
 
 // Consulta no banco
 $sql = "SELECT * From tb_usuario WHERE email = '$login' and senha ='$senha'";
