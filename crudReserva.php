@@ -36,7 +36,7 @@ switch($act)
             $idEmprestimo = mysqli_fetch_array($resSelectId);
 
             $sqlInsertEE = "INSERT INTO equipamento_emprestimo(emprestimo_id, tb_equipamento_identificador, ativo) VALUES
-            (".$idEmprestimo['id'].", ".$dados['equipamento_identificador'].", 1)";
+            (".$idEmprestimo['id'].", '".$dados['equipamento_identificador']."', 1)";
             $resInsertEE = mysqli_query($con, $sqlInsertEE) or die(mysqli_error($con));
 
             $sqlUpdateR = "UPDATE equipamento_reserva SET ativo = 0 WHERE id = ".$idAssociacao."";
@@ -61,11 +61,11 @@ switch($act)
 
     case "cancelarReserva":
 
-        $sqlSelect = "SELECT tb_equipamento_identificador FROM equipamento_reserva WHERE id = ".$idReserva."";
+        $sqlSelect = "SELECT tb_equipamento_identificador FROM equipamento_reserva WHERE id = ".$idAssociacao."";
         $resSelect = mysqli_query($con, $sqlSelect) or die(mysqli_error($con));
         $identificadorEquipamento = mysqli_fetch_array($resSelect);
 
-        $sql = "DELETE FROM equipamento_reserva WHERE id = ".$idReserva."";
+        $sql = "DELETE FROM equipamento_reserva WHERE id = ".$idAssociacao."";
         $res = mysqli_query($con, $sql) or die(mysqli_error($con));
 
         if($res == true)

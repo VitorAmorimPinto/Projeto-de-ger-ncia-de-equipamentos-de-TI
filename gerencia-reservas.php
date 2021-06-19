@@ -233,6 +233,8 @@ include("conexao.php");
             act: "emprestar"
         }
 
+        console.log(dados)
+
         $.post("crudReserva.php", dados)
         .done(async function(retorno) {
             console.log(retorno)
@@ -251,11 +253,17 @@ include("conexao.php");
     $(".cancelarReserva").submit(function(e) {
         e.preventDefault();
         var idReserva = $(this).children("input[name='idReserva']").val();
+        var idAssociacao = $(this).children("input[name='idAssociacao']").val();
+
 
         var dados = {
             idReserva: idReserva,
+            idAssociacao: idAssociacao,
             act: "cancelarReserva"
         }
+
+        console.log(dados);
+
 
         swal({
                 title: "Tem certeza que deseja cancelar esta reserva?",
@@ -268,7 +276,7 @@ include("conexao.php");
             if (willDelete) {
                 $.post("crudReserva.php", dados)
                 .done(async function(retorno) {
-
+                    console.log(retorno);
                     let resultado = JSON.parse(retorno);
 
                     await swal({
